@@ -82,8 +82,21 @@ body {
   right: 0;
   bottom: 10%;
   margin: auto;
+  padding-left: 7%;
+  padding-top: 4%;
 }
 
 .select, .start {
-  width: 90%;
+  width: 45%;
+  height: 90%;
+  border: 1px solid #222;
+  float: left;
+}
+
+.select {
+  border-right: none;
+}
+
+.start {
+  border-left: none;
 }
