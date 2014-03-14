@@ -27,6 +27,8 @@ MediaStreamTrack.getSources(function (sources) {
   });
 });
 
+qrcode.success = gotId;
+
 
 $('#scan').click(function () {
   $(this).hide();
@@ -42,6 +44,11 @@ $('#scan').click(function () {
   shotsInterval = setInterval(function () {
     try {
       ctx.drawImage(video[0], 0, 0);
+      try {
+        qrcode.decode();
+      } catch(e) {
+        console.log(e);
+      }
     } catch (e) {
       console.log(e.message);
     }
@@ -80,4 +87,9 @@ function gotUserMedia(stream) {
   video.attr('src', URL ? URL.createObjectURL(stream) : stream);
 
   window.stream = stream;
+}
+
+
+function gotId(data) {
+  alert(data);
 }
