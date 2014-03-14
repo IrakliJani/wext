@@ -5,8 +5,8 @@ if (!isMobile) {
 }
 
 var camera = {
-  minWidth : 640,
-  minHeight : 480
+  maxWidth : 320,
+  maxHeight : 240
 };
 
 var scan  = $('#scan'),
@@ -32,11 +32,9 @@ $('#scan').click(function () {
   $(this).hide();
   camList.show();
 
-  'canvas,video'.split(',').forEach(function (elem, i) {
-    $(elem).attr({
-      width:  camera.minWidth,
-      height: camera.minHeight
-    });
+  $('canvas,video').attr({
+    width:  camera.maxWidth,
+    height: camera.maxHeight
   });
 
   getStream();
