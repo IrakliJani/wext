@@ -1,0 +1,11 @@
+.btn:focus {
+  outline: none !important;
+}
+
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.center {
+  text-align: center;
+}
