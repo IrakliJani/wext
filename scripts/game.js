@@ -2,26 +2,72 @@ if (isMobile()) {
   redirect('/');
 }
 
+var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game_url').hide();
 
-var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
+console.log(window.location.hash);
 
-peer.on('open', function(id) {
+if (window.location.hash === "") {
 
-  var url = window.location.href;
+  // Master of all
 
-  window.location.hash = id;
+  peer.on('open', function (id) {
 
-  new QRCode('game_qr', {
-    text: url,
-    width: 232,
-    height: 232,
-    colorDark: '#000000',
-    colorLight: '#F2F2F2',
-    correctLevel: QRCode.CorrectLevel.H
+    var url = window.location.href;
+    window.location.hash = id;
+
+    $('#game_url').attr('href', url).show();
+
   });
 
+  peer.on('connection', function (conn) {
+    console.log('test');
 
-  $('#game_url').attr('href', url).show();
+    conn.on('open', function() {
 
-});
+      console.log('yay');
+
+      conn.on('data', function(data) {
+        console.log(data);
+      });
+
+      conn.send('ping');
+
+    });
+  });
+
+} else {
+
+  // Enslaved peer
+
+  var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
+      id = window.location.hash.slice(1),
+      conn = peer.connect(id);
+
+  conn.on('open', function() {
+
+    console.log('yay');
+
+    conn.on('data', function(data) {
+      console.log(data);
+    });
+
+    conn.send('pong');
+
+  });
+
+}
+
+
+
+
+
+
+// new QRCode('controller_qr', {
+//   text: url,
+//   width: 232,
+//   height: 232,
+//   colorDark: '#000000',
+//   colorLight: '#F2F2F2',
+//   correctLevel: QRCode.CorrectLevel.H
+// });
