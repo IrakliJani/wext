@@ -22,11 +22,6 @@ if (window.location.hash === "") {
     conn.on('open', function () {
       var emitter = new Emitter(conn);
 
-      emitter.on('masteras_dideba', function (mshvidoba, sulta, chventa) {
-        console.log(mshvidoba, sulta, chventa);
-      });
-
-      emitter.emit('slaves_gineba', 'arakaco', 'roskipo', 'murtazo');
     });
   });
 
@@ -40,12 +35,6 @@ if (window.location.hash === "") {
       emitter = new Emitter(conn);
 
   conn.on('open', function() {
-
-    emitter.on('slaves_gineba', function (erti, ori, sami) {
-      console.log(erti, ori, sami);
-    });
-
-    emitter.emit('masteras_dideba', 'didi', 'tepshit', 'mtxle');
 
   });
 

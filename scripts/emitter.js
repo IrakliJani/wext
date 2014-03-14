@@ -3,7 +3,6 @@ function Emitter(conn) {
 }
 
 Emitter.prototype.emit = function (name) {
-
   var args = Array.prototype.slice.call(arguments, 1),
       data = {
         name: name,
