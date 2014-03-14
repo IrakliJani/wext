@@ -1,3 +1,9 @@
+html,body {
+  height:100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #D5CDBC;
 }
@@ -7,6 +13,62 @@ body {
 }
 
 .rotate {
-  display: none;
   text-align: center;
+  display: none;
+}
+
+.controller {
+  position: relative;
+  top: 10%;
+  left: 5%;
+  width: 90%;
+  height: 80%;
+  background-color: #333;
+}
+
+.col1, .col2, .col3 {
+  height: 100%;
+  float: left;
+}
+
+.col1 {
+  width: 33%;
+}
+
+.col2 {
+  width: 33%;
+}
+
+.col3 {
+  width: 34%;
+  position: relative;
+}
+
+
+.a, .b {
+  position: absolute;
+  width: 35%;
+  height: 22%;
+  background-color: #D5CDBC;
+  bottom: 10%;
+  left: 10%;
+  border-radius: 5px;
+}
+
+.a {
+  left: 60%;
+}
+
+.circle {
+  background-color: #DB2B23;
+  border: 3px solid #222;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }

@@ -1,31 +1,38 @@
 $(function () {
+  $('body').click(function () {
+    launchFullscreen(document.documentElement);  
+  });
+  
+
   if(Math.abs(window.orientation) === 90 || window.orientation === undefined) {
-    init();
+    $('.rotate').hide();
+    $('.controller').show()
   } else {
     $('.rotate').show();
+    $('.controller').hide()
   }
 
   window.addEventListener("orientationchange", function() {
     if(Math.abs(window.orientation) === 90) {
       $('.rotate').hide();
-      init();
+      $('.controller').show()
     } else {
-      $('svg').remove();
-      $('textarea').remove();
       $('.rotate').show();
+      $('.controller').hide()
     }
   }, false);
 
-  function init () {
-    var w = $(document).width(),
-        h = $(document).height();
-
-    paper = Raphael(w*0.05, h*0.1, w-w*0.1, h-h*0.1, true);
-    var controller = paper.rect(0, 0, w - w*0.1, h - h*0.15);
-
-    controller.attr({
-      'fill': '#000'
-    });
+  function launchFullscreen(element) {
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if(element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if(element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
   };
-
 });
+
+
