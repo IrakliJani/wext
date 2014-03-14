@@ -5,9 +5,3 @@ window.isMobile = function () {
 window.redirect = function (url) {
   window.location = url;
 };
-
-if (isMobile()) {
-  $('.desktop-show').hide();
-} else {
-  $('.mobile-show').hide();
-}
