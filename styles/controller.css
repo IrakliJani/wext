@@ -5,3 +5,8 @@ body {
 ::-webkit-scrollbar { 
   display: none; 
 }
+
+.rotate {
+  display: none;
+  text-align: center;
+}
