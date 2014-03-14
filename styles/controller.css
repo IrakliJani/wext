@@ -1,3 +1,8 @@
 .cam-list {
   display: none;
 }
+
+.qrContainer {
+  margin: 15px auto 0 auto;
+  text-align: center;
+}
