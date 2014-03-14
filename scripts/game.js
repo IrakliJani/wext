@@ -2,12 +2,16 @@ if (isMobile()) {
   redirect('/');
 }
 
+
+
 var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game_url').hide();
 
 if (window.location.hash === "") {
 
   // Master of all
+
+  var worker = new Worker('scripts/worker.js');
 
   peer.on('open', function (id) {
 
