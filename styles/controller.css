@@ -29,6 +29,7 @@ body {
 .col1, .col2, .col3 {
   height: 100%;
   float: left;
+  position: relative;
 }
 
 .col1 {
@@ -41,7 +42,6 @@ body {
 
 .col3 {
   width: 34%;
-  position: relative;
 }
 
 
@@ -71,4 +71,19 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
+}
+
+.select-start {
+  position: absolute;
+  background-color: #D5CDBC;
+  border-radius: 20px;
+  width: 80%;
+  height: 20%;
+  right: 0;
+  bottom: 10%;
+  margin: auto;
+}
+
+.select, .start {
+  width: 90%;
 }
