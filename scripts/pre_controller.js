@@ -13,13 +13,16 @@ var scan  = $('#scan'),
   camList = $('#camList');
 
 var video  = $('video'),
-    canvas = $('canvas')
+    canvas = $('canvas'),
+    ctx    = canvas[0].getContext('2d');
+
+var shotsInterval;
 
 MediaStreamTrack.getSources(function (sources) {
   var c = 1;
   sources.forEach(function (source, i) {
     if (source.kind === 'video') {
-      camList.append('<option value="' + sources.id +'"> Camera ' + (c++) + '</option>');
+      camList.append('<option value="' + source.id +'"> Camera ' + (c++) + '</option>');
     }
   });
 });
@@ -37,6 +40,14 @@ $('#scan').click(function () {
   });
 
   getStream();
+
+  shotsInterval = setInterval(function () {
+    try {
+      ctx.drawImage(video[0], 0, 0);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }, 500);
 });
 
 function getStream() {
@@ -62,9 +73,13 @@ function getStream() {
   });
 }
 
+camList.change(function () {
+  getStream();
+});
+
+
 function gotUserMedia(stream) {
-  video[0].src = URL ? URL.createObjectURL(stream) : stream;
-  //video.attr('src', URL ? URL.createObjectURL(stream) : stream);
+  video.attr('src', URL ? URL.createObjectURL(stream) : stream);
 
   window.stream = stream;
 }
