@@ -12,6 +12,9 @@ var camera = {
 var scan  = $('#scan'),
   camList = $('#camList');
 
+var video  = $('video'),
+    canvas = $('canvas')
+
 MediaStreamTrack.getSources(function (sources) {
   var c = 1;
   sources.forEach(function (source, i) {
@@ -37,7 +40,31 @@ $('#scan').click(function () {
 });
 
 function getStream() {
-  var opts = {
+  if (window.stream) {
+    stream.stop();
+    video.attr('src', null);
+  }
 
+  var opts = {
+    audio : false,
+    video : {
+      mandatory : camera,
+      optional  : [ { sourceId : camList.val() } ]
+    }
   };
+
+  navigator.getUserMedia(opts, gotUserMedia, function (error) {
+    if (error.name === 'PermissionDeniedError') {
+      alert('Permission Denied');
+    } else {
+      alert('error detected');
+    }
+  });
+}
+
+function gotUserMedia(stream) {
+  video[0].src = URL ? URL.createObjectURL(stream) : stream;
+  //video.attr('src', URL ? URL.createObjectURL(stream) : stream);
+
+  window.stream = stream;
 }
