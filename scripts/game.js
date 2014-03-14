@@ -5,8 +5,6 @@ if (isMobile()) {
 var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game_url').hide();
 
-console.log(window.location.hash);
-
 if (window.location.hash === "") {
 
   // Master of all
@@ -21,18 +19,14 @@ if (window.location.hash === "") {
   });
 
   peer.on('connection', function (conn) {
-    console.log('test');
+    conn.on('open', function () {
+      var emitter = new Emitter(conn);
 
-    conn.on('open', function() {
-
-      console.log('yay');
-
-      conn.on('data', function(data) {
-        console.log(data);
+      emitter.on('masteras_dideba', function (mshvidoba, sulta, chventa) {
+        console.log(mshvidoba, sulta, chventa);
       });
 
-      conn.send('ping');
-
+      emitter.emit('slaves_gineba', 'arakaco', 'roskipo', 'murtazo');
     });
   });
 
@@ -42,23 +36,20 @@ if (window.location.hash === "") {
 
   var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
       id = window.location.hash.slice(1),
-      conn = peer.connect(id);
+      conn = peer.connect(id),
+      emitter = new Emitter(conn);
 
   conn.on('open', function() {
 
-    console.log('yay');
-
-    conn.on('data', function(data) {
-      console.log(data);
+    emitter.on('slaves_gineba', function (erti, ori, sami) {
+      console.log(erti, ori, sami);
     });
 
-    conn.send('pong');
+    emitter.emit('masteras_dideba', 'didi', 'tepshit', 'mtxle');
 
   });
 
 }
-
-
 
 
 
