@@ -1,7 +1,7 @@
 var isMobile = isMobile();
 
 if (!isMobile) {
-  //redirect('/');
+  redirect('/');
 }
 
 var camera = {
