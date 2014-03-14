@@ -4,6 +4,11 @@ if (!isMobile) {
   //redirect('/');
 }
 
+var camera = {
+  minWidth : 640,
+  minHeight : 480
+};
+
 var scan  = $('#scan'),
   camList = $('#camList');
 
@@ -17,7 +22,22 @@ MediaStreamTrack.getSources(function (sources) {
 });
 
 
-$("#scan").click(function () {
+$('#scan').click(function () {
   $(this).hide();
   camList.show();
+
+  'canvas,video'.split(',').forEach(function (elem, i) {
+    $(elem).attr({
+      width:  camera.minWidth,
+      height: camera.minHeight
+    });
+  });
+
+  getStream();
 });
+
+function getStream() {
+  var opts = {
+
+  };
+}

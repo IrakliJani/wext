@@ -13,8 +13,14 @@
   <body>
     <div id="connector" class="container">
       <div class="row qrContainer">
-        <button type="button" id="scan" class="btn btn-default">Scan QR Code</button>
-        <select id="camList" class="cam-list"></select>
+        <div class="row">
+          <button type="button" id="scan" class="btn btn-default">Scan QR Code</button>
+          <select id="camList" class="cam-list"></select> <br />
+        </div>
+        <div class="row">
+          <video  width="320" height="240" id="cameraStream"></video>
+          <canvas width="320" height="240" id="cameraShot"></canvas>
+        </div>
       </div>
     </div>
 
