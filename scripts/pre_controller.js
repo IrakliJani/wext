@@ -126,5 +126,5 @@ function gotUserMedia(stream) {
 function gotId(data) {
   video.attr('src', '');
   window.stream.stop();
-  alert(data);
+  redirect('/controller#' + id);
 }
