@@ -17,98 +17,168 @@ body {
   display: none;
 }
 
+@import url(http://fonts.googleapis.com/css?family=Coda+Caption:800);
+
 .controller {
-  position: relative;
-  top: 10%;
-  left: 5%;
-  width: 90%;
-  height: 80%;
-  background-color: #333;
-  border-radius: 40px;
-}
-
-.col1, .col2, .col3 {
-  height: 100%;
-  float: left;
-  position: relative;
-}
-
-.col1 {
-  width: 33%;
-}
-
-.col2 {
-  width: 33%;
-}
-
-.col3 {
-  width: 34%;
+  background: #dddddd -webkit-linear-gradient(#dddddd, #eeeeee);
+  width: 250px;
+  height: 250px;
+  border-radius: 48px;
+  box-shadow: 5px 10px 3px #cccccc inset, 3px 3px 25px black;
 }
 
 
-.a, .b {
+span {
+  color: #222222;
+  font-size: 18px;
+  font-family: "Coda Caption", sans-serif;
+  font-style: normal;
+  text-transform: capitalize;
+  margin: 30px 0 0 25px;
   position: absolute;
-  width: 35%;
-  height: 22%;
-  background-color: #D5CDBC;
-  bottom: 10%;
-  left: 10%;
-  border-radius: 5px;
 }
 
-.a {
-  left: 52%;
+sup {
+  font-size: 11px;
+  font-family: sans-serif;
 }
 
-.circle {
-  background-color: #DB2B23;
-  border: 3px solid #222;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
+.plus {
+  color: #333333;
+  font-weight: bold;
+  font-size: 71px;
   position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+  margin: 140px 0 0 33px;
+  -webkit-text-stroke: 14px #999999;
+  text-shadow: -2px -2px 5px black;
 }
-
-.select-start {
+.plus:before {
+  content: "+";
+  color: #333333;
+  font-weight: bold;
+  font-size: 76px;
   position: absolute;
-  background-color: #D5CDBC;
-  border-radius: 10px;
-  width: 80%;
-  height: 20%;
-  right: 0;
-  bottom: 10%;
-  margin: auto;
-  padding-left: 7%;
-  padding-top: 4%;
-}
-
-.select, .start {
-  position: relative;
-  width: 45%;
-  height: 90%;
-  border: 2px solid #444;
-  float: left;
+  margin: -2px 0 0 -1px;
+  -webkit-text-stroke: 8px #333333;
 }
 
 .select {
-  border-right: none;
+  background: linear-gradient(#777777, #ffffff);
+  width: 34px;
+  height: 16px;
+  position: absolute;
+  margin: 205px 0 0 80px;
+  border-radius: 8px;
+  transform: rotate(-28deg);
+  box-shadow: 0 0 1px #555555 inset;
+}
+.select:before {
+  background: linear-gradient(#888888, #666666);
+  content: "";
+  width: 26px;
+  height: 8px;
+  position: absolute;
+  margin: 3px 0 0 3px;
+  border: solid 1px #444444;
+  border-radius: 5px;
+  z-index: 99996;
 }
 
 .start {
-  border-left: none;
+  background: linear-gradient(#777777, #ffffff);
+  width: 34px;
+  height: 16px;
+  position: absolute;
+  margin: 205px 0 0 120px;
+  border-radius: 8px;
+  transform: rotate(-28deg);
+  box-shadow: 0 0 1px #555555 inset;
+}
+.start:before {
+  background: linear-gradient(#888888, #666666);
+  content: "";
+  width: 26px;
+  height: 8px;
+  position: absolute;
+  margin: 3px 0 0 3px;
+  border: solid 1px #444444;
+  border-radius: 5px;
+  z-index: 99996;
 }
 
-.select-start .box {
+.select span, .start span {
+  color: #1e2969;
+  font-family: "Arial", sans-serif;
+  font-size: 6px;
+  font-weight: bold;
+  width: 110px;
   position: absolute;
-  width: 80%;
-  height: 40%;
-  background-color: #333;
-  border-radius: 20px;
-  bottom: 30%;
-  left: 10%;
+  margin: 16px 0 0 5px;
+  text-transform: uppercase;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.buttonA {
+  background: linear-gradient(#666666, #ffffff);
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  margin: 175px 0 0 157px;
+  border-radius: 50%;
+  box-shadow: 0 0 1px #444444;
+}
+.buttonA:before {
+  background: linear-gradient(#bd0055, #a10254);
+  content: "";
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  margin: 3px 0 0 3px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px black;
+}
+
+.buttonB {
+  background: linear-gradient(#666666, #ffffff);
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  margin: 155px 0 0 197px;
+  border-radius: 50%;
+  box-shadow: 0 0 1px #444444;
+}
+.buttonB:before {
+  background: linear-gradient(#bd0055, #a10254);
+  content: "";
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  margin: 3px 0 0 3px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px black;
+}
+
+.speaker {
+  background: linear-gradient(#cccccc, #444444);
+  width: 30px;
+  height: 6px;
+  position: absolute;
+  margin: 220px 0 0 193px;
+  transform: rotate(61deg);
+}
+.speaker:before {
+  background: linear-gradient(#cccccc, #444444);
+  content: "";
+  width: 30px;
+  height: 6px;
+  position: absolute;
+  margin: -10px 0 0 0;
+}
+.speaker:after {
+  background: linear-gradient(#cccccc, #444444);
+  content: "";
+  width: 30px;
+  height: 6px;
+  position: absolute;
+  margin: -20px 0 0 0;
 }
