@@ -20,6 +20,7 @@ if (window.location.hash === "") {
 
     $('#game_url').attr('href', url).show();
     QR('controller_qr', id);
+    $('#controller_qr').show();
 
   });
 
@@ -28,7 +29,7 @@ if (window.location.hash === "") {
 
     conn.on('open', function () {
       emitter.on('ready', function () {
-        $('#controller_qr').show();
+        $('#game_url').hide();
       });
     });
   });
