@@ -123,7 +123,7 @@ function gotUserMedia(stream) {
 }
 
 
-function gotId(data) {
+function gotId(id) {
   video.attr('src', '');
   window.stream.stop();
   redirect('/controller#' + id);
