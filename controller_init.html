@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WEXT</title>
+
+    <link rel="stylesheet" href="styles/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/controller_init.css">
+  </head>
+  <body>
+    <div id="connector" class="container">
+      <div class="row qrContainer">
+        <div class="row">
+          <button type="button" id="scan" class="btn btn-default">Scan QR Code</button>
+          <select id="camList" class="cam-list"></select> <br />
+        </div>
+        <div class="row">
+          <video id="cameraStream" autoplay></video>
+          <canvas id="qr-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/vendors/jquery/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/grid.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/version.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/detector.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/formatinf.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/errorlevel.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/bitmat.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/datablock.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/bmparser.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/datamask.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/rsdecoder.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/gf256poly.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/gf256.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/decoder.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/qrcode.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/findpat.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/alignpat.js"></script>
+    <script type="text/javascript" src="scripts/vendors/qrcode/qrdec/databr.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/controller_init.js"></script>
+  </body>
+</html>

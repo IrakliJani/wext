@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="scripts/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="scripts/peer.min.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/grid.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/version.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/detector.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/formatinf.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/errorlevel.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/bitmat.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/datablock.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/bmparser.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/datamask.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/rsdecoder.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/gf256poly.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/gf256.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/decoder.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/qrcode.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/findpat.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/alignpat.js"></script>
+    <script type="text/javascript" src="scripts/qrsc/databr.js"></script>
+    <script type="text/javascript">
+
+
+    function getGetUserMedia() {
+      return navigator.getUserMedia || navigator.webkitGetUserMedia ||
+             navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    }
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL;
+
+    var weedOptions = {
+        video : {
+          mandatory : {
+            minWidth : 640,
+            minHeight: 480
+          }
+        },
+        audio : false
+    };
+
+    var video, canvas; 
+
+
+    qrcode.callback = function (data) {
+      alert('data was: ' + data);
+    }
+
+    var timeoutSet = false;
+    function success(stream) {
+      if (URL) {
+        video.src = URL.createObjectURL(stream);
+      } else {
+        video.src = stream;
+      }
+      window.stream = stream;
+      if (!timeoutSet) {
+        timeoutSet = true;
+        setTimeout(captureScreenshot(), 500);
+      }
+    }
+
+    function error(e) {
+      if (e.name === 'PermissionDeniedError') {
+        alert('You\'ve denied permission, clear cache of your browser');
+      } else {
+        alert('Could not get Camera stream, please check your browser preferences, or camera ^_^');
+      }
+    }
+
+    var captureNew = false;
+    function captureScreenshot() {
+      var ctx = canvas.getContext("2d");
+      if(!ctx) {
+        alert('Your browser does not even support canvas.. go upgrade your browser');
+        return;
+      }
+
+      if (captureNew) {
+        captureNew = false;
+        return;
+      }
+
+      try {
+        ctx.drawImage(video,0,0);
+        try {
+            qrcode.decode();
+        }
+        catch(e){       
+            console.log(e);
+            setTimeout(captureScreenshot, 500);
+        };
+      }
+      catch(e){       
+          console.log(e);
+          setTimeout(captureScreenshot, 500);
+      };
+    }
+
+    function establishConnection(key) {
+      var master_id = key,
+          peer = new Peer({ key: '43cafbulr6gsnhfr' });
+
+      peer.on('open', function (id) {
+        var conn = peer.connect(master_id);
+
+        conn.on('open', function() {
+          conn.on('data', function(data) {
+
+          });
+        });
+      });
+    }
+
+    function getStreams() {
+      if (!MediaStreamTrack) {
+        return  alert('Your browser does not support MediaStreamTrack, please update browser or use one');
+      }
+
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia(weedOptions, success, error);
+      } else {
+        alert('getUserMedia() is not supported in your browser');
+        return;
+      }
+    }
+
+    function gotSources(sourceInfos) {
+      var videoSelect = $("#camList")[0];
+      for (var i = 0; i != sourceInfos.length; ++i) {
+        var sourceInfo = sourceInfos[i];
+        var option = document.createElement("option");
+        option.value = sourceInfo.id;
+        if (sourceInfo.kind === 'video') {
+          option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
+          videoSelect.appendChild(option);
+        }
+      }
+    }
+
+    $(function () {
+       video  = $("#camOut")[0];
+       canvas = $("#qr-canvas")[0];
+
+       MediaStreamTrack.getSources(gotSources);
+
+       $("#camList").on("change", function () {
+         alert($("#camList")[0]);
+         alert($("#camList").val());
+         if (!!window.stream) {
+           video.src = null;
+           window.stream.stop();
+         }
+         
+         weedOptions = {
+            video : {
+              mandatory : {
+                minWidth : 640,
+                minHeight: 480
+              },
+              optional : [{ sourceId : $("#camList")[0].value }]
+            },
+            audio : false
+         };
+         getStreams();
+       });
+    });
+
+    function launchFullScreen(element) {
+      if(element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+
+    // Launch fullscreen for browsers that support it!
+    launchFullScreen(document.documentElement); // the whole page
+
+    </script>
+  </head>
+  <body>
+    <div><button id="select" onclick="getStreams()">Get Camera On</button></div>
+    <div>Camera: <select id="camList"></select></div>
+    <div id="qrCapture">
+      <video id="camOut" autoplay width="640" height="480"></video>
+      <canvas id="qr-canvas" width="640" height="480"></canvas>
+    </div>
+    <img src="images/nintendo.png">
+
+  </body>
+</html>
