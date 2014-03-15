@@ -185,10 +185,11 @@ Invaders.prototype.animateBulletAndCollide = function () {
   self.bullet.position.y += 5;
 
   // master of all, collisiomaster
-
+  //
   var originPoint = self.bullet.position.clone();
 
   for (var vertexIndex = 0; vertexIndex < self.bullet.geometry.vertices.length; vertexIndex++) {
+
     var localVertex = self.bullet.geometry.vertices[vertexIndex].clone();
     var globalVertex = localVertex.applyMatrix4(self.bullet.matrix);
     var directionVector = globalVertex.sub(self.bullet.position);
@@ -218,10 +219,5 @@ Invaders.prototype.animateBulletAndCollide = function () {
     }
 
   }
-
-    // var face = intersects[0].face.d,
-    // dist = intersects[0].distance;
-
-    // if(face == 4 && dist <= 7) sizes.ball.velocityZ = -sizes.ball.velocityZ;
 
 };
