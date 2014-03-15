@@ -2,8 +2,6 @@ if (isMobile()) {
   redirect('/');
 }
 
-
-
 var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game_url').hide();
 
@@ -22,9 +20,11 @@ if (window.location.hash === "") {
 
   });
 
+
   peer.on('connection', function (conn) {
+    var emitter = new Emitter(conn);
+
     conn.on('open', function () {
-      var emitter = new Emitter(conn);
 
     });
   });
@@ -43,9 +43,6 @@ if (window.location.hash === "") {
   });
 
 }
-
-
-
 
 // new QRCode('controller_qr', {
 //   text: url,
