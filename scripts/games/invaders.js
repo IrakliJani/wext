@@ -182,7 +182,9 @@ Invaders.prototype.animateBulletAndCollide = function () {
 
   if (! self.bullet) return
 
-  self.bullet.position.y += 3;
+  self.bullet.position.y += 5;
+
+  // master of all, collisiomaster
 
   var originPoint = self.bullet.position.clone();
 
@@ -195,9 +197,25 @@ Invaders.prototype.animateBulletAndCollide = function () {
     var collisionResults = ray.intersectObjects(self.all);
 
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
-      console.log('test');
-    }
+      var mesh = collisionResults[0].object;
 
+      // TODO: rewrite?
+      self.all = self.all.filter(function (invader) {
+        return invader.id !== mesh.id;
+      });
+
+      // remove invader
+      mesh.visible = false;
+      self.scene.remove(mesh);
+
+      // remove bullet
+      self.bullet.visible = false;
+      self.scene.remove(self.bullet);
+      self.bullet = null;
+
+      break;
+
+    }
 
   }
 
