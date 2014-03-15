@@ -6,3 +6,12 @@
   margin: 15px auto 0 auto;
   text-align: center;
 }
+
+canvas {
+  display: none;
+}
+
+video {
+  width: 360;
+  height: 240px;
+}

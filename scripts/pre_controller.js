@@ -23,9 +23,9 @@ function setCamera() {
     };
   }
 
-  $('canvas,video').attr({
-    width:  camera.maxWidth / 2,
-    height: camera.maxHeight / 2
+  $('video,canvas').attr({
+    width:  camera.maxWidth,
+    height: camera.maxHeight
   });
 }
 
@@ -54,7 +54,7 @@ MediaStreamTrack.getSources(function (sources) {
   });
 });
 
-qrcode.success = gotId;
+qrcode.callback = gotId;
 
 
 $('#scan').click(function () {
@@ -64,18 +64,28 @@ $('#scan').click(function () {
 
   getStream();
 
-  shotsInterval = setInterval(function () {
-    try {
-      ctx.drawImage(video[0], 0, 0);
-      try {
-        qrcode.decode();
-      } catch(e) {
-        console.log(e);
-      }
-    } catch (e) {
-      console.log(e.message);
+  setTimeout(captureScreenshot());
+  function captureScreenshot() {
+    if(!ctx) {
+      alert('Your browser does not even support canvas.. go upgrade your browser');
+      return;
     }
-  }, 100);
+
+    try {
+      ctx.drawImage(video[0],0,0);
+      try {
+          qrcode.decode();
+      }
+      catch(e){       
+          console.log(e);
+          setTimeout(captureScreenshot, 500);
+      };
+    }
+    catch(e){       
+        console.log(e);
+        setTimeout(captureScreenshot, 500);
+    };
+  }
 });
 
 function getStream() {
@@ -114,5 +124,7 @@ function gotUserMedia(stream) {
 
 
 function gotId(data) {
+  video.attr('src', '');
+  window.stream.stop();
   alert(data);
 }
