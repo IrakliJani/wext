@@ -1,0 +1,346 @@
+html,body {
+  height:80%;
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+::-webkit-scrollbar { 
+  display: none; 
+}
+
+.rotate {
+  text-align: center;
+  display: none;
+  color: #fff;
+  margin-top: 50%;
+  font-size: 2.2em;
+}
+
+
+@font-face {
+  font-family: 'Pretendo';
+  src: url('http://attackmupp.com/resources/nespad/Pretendo.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'NESController';
+  src: url('http://attackmupp.com/resources/nespad/nes_controller_cad_mrshrike.woff') format('woff');
+}
+
+* {
+  box-sizing: border-box;
+  font: inherit;
+}
+
+body { font: 15px/2 nescontroller,sans-serif; }
+
+.button {
+  outline: none;
+}
+
+#nespad {
+  margin: 0 auto;
+  margin-top: 4.2em;
+  border: 1em solid #e2dedb;
+  border-top-width: 3em;
+  border-radius: .3em;
+  background-color: #2a2a2a;
+  width: 38em;
+  height: 16.5em;
+  color: #c3442d;
+  font: 15px/2 nescontroller,sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+   }
+  .cord {
+    position: absolute;
+    top: -1em;
+    width: 1.1em;
+    height: 5.75em;
+    background-color: #bbb;
+    margin-left: 10em;
+    box-shadow: -.2em 0 .2em .49em #222 inset;
+  }
+  .cord:before { /* cord dent */
+    content: '';
+    position: absolute;
+    width: 1.7em;
+    height: .7em;
+    top: 5.17em;
+    left: -.4em;
+    background-color: #e2dedb;
+    box-shadow: -.05em -.1em .3em .1em #ccc inset;
+  }
+
+  .dpad-pane {
+    display: inline-block;
+    vertical-align: top;
+    margin: 6.5em 4.5em 5em;
+    width: 2.6em;
+    height: 2.6em;
+    position: relative;
+  }
+  .dpad-pane:before, .dpad-pane:after {
+    content: "";
+    background-color: #ddd;
+    width: 100%;
+    height: 280%;
+    position: absolute;
+    top: -94%;
+    left: 0;
+    border-radius: .3em;
+  }
+    .dpad-hole:before, .dpad-hole:after {
+      content: "";
+      background-color: #000;
+      margin: 7%;
+      width: 86%;
+      height: 265%;
+      position: absolute;
+      top: -93%;
+      left: 0;
+      border-radius: .2em;
+      z-index: 1;
+    }
+    .dpad-pane:after, .dpad-hole:after  {
+      transform: rotate(90deg);
+    }
+    #dpad {
+      position: relative;
+      z-index: 1;
+      top: -.006em;
+      left: -.1em;
+    }
+    #dpad:after { /* dpad-pit */
+      content: "";
+      position: absolute;
+      z-index: 1;
+      width: 1.2em;
+      height: 1.2em;
+      margin: .4em .5em;
+      border-radius: 1em;
+      background: -webkit-radial-gradient(76% 63%, circle closest-corner, hsla(0, 0%, 60%, 0.45), hsla(0, 0%, 10%, 1) 100%);
+      background: -moz-radial-gradient(76% 63%, circle closest-corner, hsla(0, 0%, 60%, 0.45), hsla(0, 0%, 10%, 1) 100%);
+      background: radial-gradient(76% 63%, circle closest-corner, hsla(0, 0%, 60%, 0.45), hsla(0, 0%, 10%, 1) 100%);
+      box-shadow: -3px -2px 4px -1px #444444 inset /* scalable units did not work well across browsers */;
+    }
+    #dpad.up {
+      transform: rotate(.4deg) scaleY(0.98);
+      margin-top: -.15em;
+      margin-left: .05em;
+    }
+    #dpad.right {
+      transform: rotate(.5deg) scaleX(1.02);
+      margin-top: .01em;
+      margin-left: .11em;
+    }
+    #dpad.down {
+      transform: rotate(-.6deg) scaleY(1.01);
+      margin-top: .15em;
+      margin-left: .05em;
+    }
+    #dpad.left {
+      transform: rotate(-.8deg) scaleX(0.97);
+      margin-top: .015em;
+      margin-left: -.15em;
+    }
+      #dpad-body {
+        left: -2.3em;
+        top: -2.3em;
+        position: absolute;
+        z-index: 1;
+      }
+      #dpad .button {
+        position: absolute;
+        z-index: 2;
+        width: 2em;
+        height: 2em;
+        background-color: rgba(0, 0, 0, 0); /* "transparent" buttons in ie9 aren't clickable, but rgba can be used */
+        border: none;
+        padding: 0;
+      }
+      #dpad .button:before {
+        content: "";
+        display: block;
+        position: absolute;
+        margin: 0 .55em 0;
+        width: .8em;
+        height: .8em;
+        border-width: .1em;
+        border-style: solid;
+        transform: rotate(315deg);
+      }
+      #dpad .button:after {
+        content: "";
+        display: block;
+        position: absolute;
+        margin: .5em .5em 0;
+        width: .8em;
+        height: .45em;
+        border-width: .1em;
+        border-style: solid;
+      }
+      #up { top: -2.7em; }
+        #up:before { border-color: #151515 #444 transparent transparent; }
+        #up:after { border-color: transparent #444 #444 #151515; }
+      #right {
+        left: 2.7em;
+        transform: rotate(90deg);
+      }
+        #right:before { border-color: #444 #444 transparent transparent; }
+        #right:after { border-color: transparent #444 #151515 #151515; }
+      #down {
+        top: 2.7em;
+        transform: rotate(180deg);
+      }
+        #down:before { border-color: #444 #151515 transparent transparent; }
+        #down:after { border-color: transparent #151515 #151515 #444; }
+      #left {
+        left: -2.7em;
+        transform: rotate(270deg);
+      }
+        #left:before { border-color: #444 #151515 transparent transparent; }
+        #left:after { border-color: transparent #151515 #444 #444; }
+
+.menu-pane {
+  display: inline-block;
+  vertical-align: top;
+  width: 11.5em;
+  height: 100%;
+  overflow: hidden;
+  overflow: -moz-hidden-unscrollable; /* normal hidden doesn't work in firefox here */
+  border: 0 solid rgba(100, 100, 100, .8);
+  border-width: .1em 0; }
+  .menu-pane .labels {
+    border-radius: .3em;
+    height: 2em;
+    background-color: #888;
+    text-transform: uppercase;
+    padding: 0 .8em;
+    margin-top: 5.2em;
+    box-shadow: 0 -2.7em #888, 0 -5.4em #888, 0 7em #888; }
+    .menu-pane label {
+      line-height: 1.4;
+      font-size: 1.3em;
+    }
+    .menu-pane .buttons {
+      margin: 0.67em 0;
+      width: 100%;
+      height: 3.6em;
+      border-radius: .3em;
+      background-color: #ddd;
+      text-transform: uppercase;
+      padding: 1.3em;
+      word-spacing: 2em;
+      position:relative;
+    }
+    .menu-pane .buttons:before { /* indentation */
+      content: "";
+      position: absolute;
+      top: .4em;
+      right: .4em;
+      bottom: .4em;
+      left: .4em;
+      border: .3em solid transparent;
+      border-color: #b1b1b1 #f6f6f6 #eee #bbb;
+      box-shadow: 1em .8em .8em -1em hsla(0, 0%, 0%, 0.3) inset; }
+      .menu-pane .button {
+        position: relative;
+        overflow: hidden;
+        top: -.3em;
+        left: -.16em;
+        height: 1.2em;
+        width: 3.3em;
+        border: 0;
+        border-radius: 1em;
+        background-color: #2a2a2a;
+        color: #2a2a2a;
+        box-shadow:
+          .04em .08em 0 hsla(0, 0%, 26%, 1), /* 3d */
+          .08em .15em 0 hsla(0, 0%, 23%, 1),
+          .12em .23em 0 hsla(0, 0%, 20%, 1),
+          .16em .3em 0 hsla(0, 0%, 17%, 1),
+          .16em .3em 0 .15em hsla(0, 0%, 0%, .9), /* hole */
+          .1em .075em .5em rgba(0, 0, 0, .3), /* shadow */
+          .3em .15em .5em rgba(0, 0, 0, .3),
+          .6em .2em .5em rgba(0, 0, 0, .3),
+          1.2em .4em .5em rgba(0, 0, 0, .3);
+        }
+
+  .start { float: right; }
+  .select { float: left; }
+
+.action-pane {
+  display: inline-block;
+  vertical-align: top;
+  border-bottom: 1px solid transparent;
+  margin: 4.2em 0 0 2.1em;}
+  .logo {
+    font: 1.3em/1 pretendo;
+    margin: 0 0 3.3rem 0.8rem;
+    cursor: default; }
+    .logo:after {
+      content: '\AE';
+      vertical-align: super;
+      font: 0.6rem sans-serif;
+    }
+  .action-pane .label {
+    display: inline-block;
+    background-color: #ddd;
+    border-radius: 0.4rem;
+    width: 5rem;
+    height: 5rem;
+    margin-left: .8rem;
+    text-align: center;
+    line-height: 7.7em;
+    position: relative;
+    font-size: 1.5rem; }
+    .action-pane .button {
+      position: absolute;
+      top: .2rem;
+      left: .22rem;
+      width: 4.2rem;
+      height: 4.2rem;
+      background: #E0421B; /* fallack */
+      background: -webkit-radial-gradient(35% 35%, circle closest-corner, #ff8957, #E0421B 100%);
+      background: -moz-radial-gradient(35% 35%, circle closest-corner, #ff8957, #E0421B 100%);
+      background: radial-gradient(35% 35%, circle closest-corner, #ff8957, #E0421B 100%);
+      border-radius: 2em;
+      border: .08em solid hsla(10, 90%, 55%, 1);
+      box-shadow:
+        2em 1em 0.2em 0 hsla(10, 90%, 45%, .5) inset, /* reflection */
+        .04em .1em 0 hsla(10, 90%, 30%, 1), /* 3d */
+        .08em .2em 0 hsla(10, 90%, 26%, 1),
+        .12em .3em 0 hsla(10, 90%, 23%, 1),
+        .1em .24em 0 .15em hsla(0, 0%, 15%, 1), /* hole */
+        .1em .075em .5em rgba(0, 0, 0, .3), /* shadow */
+        .3em .15em .5em rgba(0, 0, 0, .3),
+        .6em .3em .5em rgba(0, 0, 0, .3),
+        1.2em .6em .5em rgba(0, 0, 0, .3);
+    }
+
+.action-pane .button:active {
+  top: .70rem !important;
+  left: .35rem !important;
+  box-shadow:
+    2em 1em 0.2em 0 hsla(10, 90%, 45%, .5) inset,
+    .05em .1em 0 hsla(10,90%,30%,1),
+    0 0 0 .15em hsla(0, 0%, 15%, 1),
+    .1em .075em .5em rgba(0,0,0,.3) !important;
+}
+
+.menu-pane .button:active {
+  top: 0 !important;
+  left: 0 !important;
+  box-shadow:
+    0 0 0 .15em hsla(0, 0%, 0%, .9), /* hole */
+    .1em .075em .5em rgba(0,0,0,.3) !important;
+}
