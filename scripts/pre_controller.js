@@ -4,10 +4,37 @@ if (!isMobile) {
   redirect('/');
 }
 
-var camera = {
-  maxWidth : 320,
-  maxHeight : 240
-};
+var cameraDefaults = {
+  maxWidth : 640,
+  maxHeight : 480
+}, camera;
+
+
+function setCamera() {
+  if (getOrientation() === 'landscape') {
+    camera = {
+      maxWidth:  cameraDefaults.maxWidth,
+      maxHeight: cameraDefaults.maxHeight
+    };
+  } else {
+    camera = {
+      maxWidth:  cameraDefaults.maxHeight,
+      maxHeight: cameraDefaults.maxWidth
+    };
+  }
+
+  $('canvas,video').attr({
+    width:  camera.maxWidth / 2,
+    height: camera.maxHeight / 2
+  });
+}
+
+setCamera();
+
+$(window).on('orientationchange', function () {
+  setCamera();
+});
+
 
 var scan  = $('#scan'),
   camList = $('#camList');
@@ -34,10 +61,6 @@ $('#scan').click(function () {
   $(this).hide();
   camList.show();
 
-  $('canvas,video').attr({
-    width:  camera.maxWidth,
-    height: camera.maxHeight
-  });
 
   getStream();
 
@@ -52,7 +75,7 @@ $('#scan').click(function () {
     } catch (e) {
       console.log(e.message);
     }
-  }, 500);
+  }, 100);
 });
 
 function getStream() {
