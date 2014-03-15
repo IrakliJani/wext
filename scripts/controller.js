@@ -8,48 +8,55 @@ $(function () {
 
   FastClick.attach(document.body);
 
-  $('.action-pane .button').on('touchstart mousedown',function (){
+  //a and b down
+  $('.action-pane .button').on('touchstart mousedown',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'down'
     };
   });
 
-  $('.action-pane .button').on('touchend mouseup touchcancel',function (){
+  //a and b up
+  $('.action-pane .button').on('touchend mouseup touchcancel',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'up'
     };
   });
 
-  $('.menu-pane .button').on('touchstart mousedown',function (){
+  //start and select down
+  $('.menu-pane .button').on('touchstart mousedown',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'down'
     };
   });
 
-  $('.menu-pane .button').on('touchend mouseup touchcancel',function (){
+  //start and select up
+  $('.menu-pane .button').on('touchend mouseup touchcancel',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'up'
     };
   });
 
-  $('#up, #down, #left, #right').on('touchstart mousedown', function () {
+  //arrows down
+  $('#up, #down, #left, #right').on('touchstart mousedown', function (e) {
     var data = {
       name: $(this).attr('id'),
       type: 'down'
     };
-
+    e.preventDefault(); 
     $("#dpad").addClass(data.name);
   });
 
-  $('#up, #down, #left, #right').on('touchend mouseup touchcancel', function () {
+  //arrows up
+  $('#up, #down, #left, #right').on('touchend mouseup touchcancel', function (e) {
     var data = {
       name: $(this).attr('id'),
       type: 'up'
     };
+    e.preventDefault(); 
     $("#dpad").removeClass(data.name);
   });
 
