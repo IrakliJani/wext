@@ -1,7 +1,7 @@
 $(function () {
-  // $('body').click(function () {
-  //   launchFullscreen(document.documentElement);  
-  // });
+  $('body').click(function () {
+    launchFullscreen(document.documentElement);  
+  });
   
   FastClick.attach(document.body);
 
@@ -13,7 +13,7 @@ $(function () {
     $('#nespad').hide()
   }
 
-  window.addEventListener("orientationchange", function() {
+  $(window).on("orientationchange", function() {
     if(Math.abs(window.orientation) === 90) {
       $('.rotate').hide();
       $('#nespad').show()
@@ -21,7 +21,7 @@ $(function () {
       $('.rotate').show();
       $('#nespad').hide()
     }
-  }, false);
+  });
 
   function launchFullscreen(element) {
     if(element.requestFullscreen) {
