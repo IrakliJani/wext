@@ -1,7 +1,7 @@
 $(function () {
   draw_things();
   
-  //events go wild
+  // events go wild
   $(document).click(function () {
     launchFullscreen(document.documentElement);  
   });
@@ -14,6 +14,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'down'
     };
+    $(this).addClass('action-pane-active');
   });
 
   //a and b up
@@ -22,6 +23,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'up'
     };
+    $(this).removeClass('action-pane-active');
   });
 
   //start and select down
@@ -30,6 +32,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'down'
     };
+    $(this).addClass('menu-pane-active');
   });
 
   //start and select up
@@ -38,6 +41,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'up'
     };
+    $(this).removeClass('menu-pane-active');
   });
 
   //arrows down
