@@ -5,3 +5,13 @@
 #game_url {
   font-size: 1.3em;
 }
+
+.margin-bottom-10 {
+  margin-bottom: 15px;
+}
+
+.color-green {
+  color: green;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
