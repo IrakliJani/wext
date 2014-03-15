@@ -12,24 +12,61 @@
   </head>
   <body>
     <h2 class="rotate"> Please rotate Device </h2>
-    <div class="controller">
-      <a href="#">
-        <div class="plus">+</div>
-      </a>
-      <a href="#">
-        <div class="select"><span>select</span></div>
-      </a>
-      <a href="#">
-        <div class="start"><span>start</span></div>
-      </a>
-      <a href="#">
-        <div class="buttonA"></div>
-      </a>
-      <a href="#">
-        <div class="buttonB"></div>
-      </a>
-    </div>
-
+    <figure id="nespad">
+      <div class="cord">
+      </div>
+      <section class="dpad-pane">
+        <div class="dpad-hole">
+        </div>
+        <div id="dpad">
+          <canvas height="150" id="dpad-body" width="150">
+          </canvas>
+          <button class="button" id="up">
+          </button>
+          <button class="button" id="right">
+          </button>
+          <button class="button" id="down">
+          </button>
+          <button class="button" id="left">
+          </button>
+        </div>
+      </section>
+      <section class="menu-pane">
+        <div class="labels">
+          <label class="select" for="select">
+            Select
+          </label>
+          <label class="start" for="start">
+            Start
+          </label>
+        </div>
+        <div class="buttons">
+          <button class="button select" id="select">
+            Select
+          </button>
+          <button class="button start" id="start">
+            Start
+          </button>
+        </div>
+      </section>
+      <section class="action-pane">
+        <div class="logo">
+          Nintendo
+        </div>
+        <div class="buttons">
+          <label class="label">
+            B
+            <button class="button" id="b">
+            </button>
+          </label>
+          <label class="label">
+            A
+            <button class="button" id="a">
+            </button>
+          </label>
+        </div>
+      </section>
+    </figure>
     <script type="text/javascript" src="scripts/vendors/jquery/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="scripts/vendors/raphael-min.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
