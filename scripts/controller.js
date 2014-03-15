@@ -1,9 +1,55 @@
 $(function () {
-  $('body').click(function () {
+  $(document).click(function () {
     launchFullscreen(document.documentElement);  
   });
-  
-  FastClick.attach(document.body);
+
+  $('.action-pane .button').on('touchstart mousedown',function (){
+    var data = {
+      name: $(this).attr('id'),
+      type: 'down'
+    };
+    $(this).addClass('action-tap');
+  });
+
+  $('.action-pane .button').on('touchend mouseup touchcancel',function (){
+    var data = {
+      name: $(this).attr('id'),
+      type: 'up'
+    };
+    $(this).removeClass('action-tap');
+  });
+
+  $('.menu-pane .button').on('touchstart mousedown',function (){
+    var data = {
+      name: $(this).attr('id'),
+      type: 'down'
+    };
+    $(this).addClass('menu-pane-active');
+  });
+
+  $('.menu-pane .button').on('touchend mouseup touchcancel',function (){
+    var data = {
+      name: $(this).attr('id'),
+      type: 'up'
+    };
+    $(this).removeClass('menu-pane-active');
+  });
+
+  $('#up, #down, #left, #right').on('touchstart mousedown', function () {
+    var data = {
+      name: $(this).attr('id'),
+      type: 'down'
+    };
+    $("#dpad").addClass(data.name);
+  });
+
+  $('#up, #down, #left, #right').on('touchend mouseup touchcancel', function () {
+    var data = {
+      name: $(this).attr('id'),
+      type: 'up'
+    };
+    $("#dpad").removeClass(data.name);
+  });
 
   if(Math.abs(window.orientation) === 90 || window.orientation === undefined) {
     $('.rotate').hide();
@@ -34,19 +80,19 @@ $(function () {
       element.msRequestFullscreen();
     }
   };
-  var pad = document.getElementById("dpad"),
-  i = 0,
-  padbuttons = pad.getElementsByClassName("button"),
-  click = function(){
-    pad.className = this.id;
-    document.onmouseup = function(){
-      pad.className = "";
-    };
-  };
+  // var pad = document.getElementById("dpad"),
+  // i = 0,
+  // padbuttons = pad.getElementsByClassName("button"),
+  // click = function(){
+  //   pad.className = this.id;
+  //   document.onmouseup = function(){
+  //     pad.className = "";
+  //   };
+  // };
   
-  for (i = 0; i < padbuttons.length; i+=1) {
-    padbuttons[i].onmousedown = click;
-  }
+  // for (i = 0; i < padbuttons.length; i+=1) {
+  //   padbuttons[i].onmousedown = click;
+  // }
 });
 
 
@@ -55,19 +101,19 @@ $(function () {
  */
 
 (function () {
-  var pad = document.getElementById("dpad"),
-  i = 0,
-  padbuttons = pad.getElementsByClassName("button"),
-  click = function(){
-    pad.className = this.id;
-    document.onmouseup = function(){
-      pad.className = "";
-    };
-  };
+  // var pad = document.getElementById("dpad"),
+  // i = 0,
+  // padbuttons = pad.getElementsByClassName("button"),
+  // click = function(){
+  //   pad.className = this.id;
+  //   document.onmouseup = function(){
+  //     pad.className = "";
+  //   };
+  // };
   
-  for (i = 0; i < padbuttons.length; i+=1) {
-    padbuttons[i].onmousedown = click;
-  }
+  // for (i = 0; i < padbuttons.length; i+=1) {
+  //   padbuttons[i].onmousedown = click;
+  // }
 
   var canvas = document.getElementById("dpad-body");
   
