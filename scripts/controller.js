@@ -1,8 +1,9 @@
 $(function () {
-  $('body').click(function () {
-    launchFullscreen(document.documentElement);  
-  });
+  // $('body').click(function () {
+  //   launchFullscreen(document.documentElement);  
+  // });
   
+  FastClick.attach(document.body);
 
   if(Math.abs(window.orientation) === 90 || window.orientation === undefined) {
     $('.rotate').hide();
