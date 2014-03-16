@@ -202,14 +202,18 @@ Invaders.prototype.draw = function () {
 
 Invaders.prototype.animate = function () {
 
-  this.animateInvaders();
-  this.animateDefenser();
+  var self = this;
 
-  this.animateBullet();
-  this.collideBullet();
+  if (! self.end) {
+    self.animateInvaders();
+    self.animateDefenser();
 
-  this.testLoose();
-  this.testWin();
+    self.animateBullet();
+    self.collideBullet();
+
+    self.testLoose();
+    self.testWin();
+  }
 
 };
 
@@ -344,5 +348,13 @@ Invaders.prototype.testLoose = function () {
       console.log('you loose');
     }
   }
+
+};
+
+Invaders.prototype.stop = function () {
+
+  var self = this;
+
+  self.end = true;
 
 };

@@ -187,7 +187,7 @@ function initGame(emitter, color) {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.position.z = 600;
 
-    invaders = new Invaders(emitter, scene, color, width, 3, 10);
+    window.invaders = invaders = new Invaders(emitter, scene, color, width, 3, 10);
     invaders.init();
     invaders.draw();
 
