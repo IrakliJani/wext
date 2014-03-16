@@ -129,13 +129,8 @@ if (window.location.hash === "") {
   });
 
   conn.on('open', function() {
-<<<<<<< HEAD
     emitter.emit('peerConnected');
     $('#controller_qr').show();
-=======
-    emitter.emit('ready');
-    $('#controller-qr').show();
->>>>>>> 4d5961758e97715de88502a4b17baa6b1db32f30
   });
 
 }
