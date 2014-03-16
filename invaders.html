@@ -28,13 +28,15 @@
     <script type="text/javascript">
 
     var stats = new Stats();
-    stats.setMode(0); // 0: fps, 1: ms
+    stats.setMode(0);
 
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.right = '0px';
-    stats.domElement.style.top = '0px';
+    $(stats.domElement).css({
+      position: 'absolute',
+      right: '0px',
+      top: '0px'
+    });
 
-    document.body.appendChild( stats.domElement );
+    $('body').append(stats.domElement);
 
     var camera, scene, renderer;
 
@@ -72,8 +74,8 @@
       invaders.animate();
       renderer.render(scene, camera);
 
-      stats.end();
       requestAnimationFrame(animate);
+      stats.end();
     }
 
     </script>

@@ -25,9 +25,22 @@ function Invaders (scene, width, rows, bricks_in_row) {
 
 Invaders.prototype.init = function () {
 
-  this.initInvaders();
-  this.initDefenser();
-  this.initBullet();
+  var self = this;
+
+  self.initInvaders();
+  self.initDefenser();
+  self.initBullet();
+
+  setInterval(function () {
+
+    console.log('count of all: ' + self.all.length);
+
+    for (var i = 0; i < self.group.children.length; i++) {
+      var row = self.group.children[i];
+      console.log('count of row #' + i + ': ' + row.children.length);
+    }
+
+  }, 1000);
 
 };
 
@@ -144,6 +157,8 @@ Invaders.prototype.animate = function () {
   this.animateDefenser();
   this.animateBulletAndCollide();
 
+  this.testLoose();
+
 };
 
 Invaders.prototype.animateDefenser = function () {
@@ -176,6 +191,34 @@ Invaders.prototype.animateInvaders = function () {
   }
 };
 
+Invaders.prototype.destroyInvader = function (mesh) {
+
+  var self = this;
+
+  mesh.visible = false;
+  self.scene.remove(mesh);
+
+  for (var i = 0; i < self.group.children.length; i++) {
+    var row = self.group.children[i];
+    row.remove(mesh);
+  }
+
+  self.all = self.all.filter(function (invader) {
+    return invader.id !== mesh.id;
+  });
+};
+
+Invaders.prototype.destroyBullet = function (mesh) {
+
+  var self = this;
+
+  mesh.visible = false;
+  self.scene.remove(mesh);
+  self.bullet = null;
+
+
+};
+
 Invaders.prototype.animateBulletAndCollide = function () {
 
   var self = this;
@@ -184,8 +227,13 @@ Invaders.prototype.animateBulletAndCollide = function () {
 
   self.bullet.position.y += 5;
 
+  if (self.bullet.position.y > 220) {
+    self.destroyBullet(self.bullet);
+    return;
+  }
+
   // master of all, collisiomaster
-  //
+
   var originPoint = self.bullet.position.clone();
 
   for (var vertexIndex = 0; vertexIndex < self.bullet.geometry.vertices.length; vertexIndex++) {
@@ -200,24 +248,33 @@ Invaders.prototype.animateBulletAndCollide = function () {
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
       var mesh = collisionResults[0].object;
 
-      // TODO: rewrite?
-      self.all = self.all.filter(function (invader) {
-        return invader.id !== mesh.id;
-      });
-
       // remove invader
-      mesh.visible = false;
-      self.scene.remove(mesh);
+      self.destroyInvader(mesh);
 
       // remove bullet
-      self.bullet.visible = false;
-      self.scene.remove(self.bullet);
-      self.bullet = null;
+      self.destroyBullet(self.bullet);
 
       break;
-
     }
 
+  }
+
+};
+
+Invaders.prototype.testLoose = function () {
+
+  var self = this;
+
+
+
+  for (var i = 0; i < self.group.children.length; i++) {
+    var row = self.group.children[i];
+
+    if (row.children.length === 0) continue;
+
+    if (row.position.y <= -300) {
+      console.log('you sucker looser eat my huge boner');
+    }
   }
 
 };
