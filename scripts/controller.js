@@ -25,7 +25,7 @@ $(function () {
   
   // events go wild
   $(document).click(function () {
-    //launchFullscreen(document.documentElement);  
+    launchFullscreen(document.documentElement);
   });
 
   FastClick.attach(document.body);
