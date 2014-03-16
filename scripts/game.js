@@ -50,7 +50,6 @@ peer.on('connection', function (conn) {
     emitter.on('event', function (e) {
       var name = e.name + ':' + e.type;
       var selector = '#player' + (1 + conn.controller) + ' li';
-      console.log(name + ' |||' + selector);
 
       switch (name) {
         case 'down:down':
@@ -96,7 +95,10 @@ peer.on('connection', function (conn) {
             $('#select-view').hide();
             $('#game-view').show();
 
-            initGame(emitter, color);
+            initGame();
+
+            invaders.initPlayer(controllers[0].color, new Emitter(controllers[0]));
+            invaders.initPlayer(controllers[1].color, new Emitter(controllers[1]));
 
             break;
           }
@@ -136,8 +138,6 @@ function initGame(color) {
   init();
   animate();
 
-
-
   function init() {
 
     var width = $('#canvas').width(),
@@ -155,7 +155,7 @@ function initGame(color) {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.position.z = 600;
 
-    window.invaders = invaders = new Invaders(scene, color, width, 3, 10);
+    window.invaders = invaders = new Invaders(scene, width, 3, 10);
 
     invaders.init();
     invaders.draw();

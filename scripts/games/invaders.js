@@ -1,4 +1,4 @@
-function Invaders (scene, color, width, rows, bricks_in_row) {
+function Invaders (scene, width, rows, bricks_in_row) {
 
 
 
@@ -24,18 +24,6 @@ function Invaders (scene, color, width, rows, bricks_in_row) {
   this.group = new THREE.Object3D();
   this.bullets = new THREE.Object3D();
 
-  switch (color) {
-    case 'red':
-      this.color = 0xFF0000;
-      break;
-    case 'green':
-      this.color = 0x00FF00;
-      break;
-    case 'blue':
-      this.color = 0x0000FF;
-      break;
-  }
-
   this.players = new THREE.Object3D();
 
 }
@@ -45,7 +33,6 @@ Invaders.prototype.init = function () {
   var self = this;
 
   self.initInvaders();
-  //self.initBullet();
 
 };
 
@@ -95,7 +82,7 @@ Invaders.prototype.initPlayer = function (color, emitter) {
   var geometry = new THREE.BoxGeometry(self.size / 2, self.size / 2, 5);
   var material = new THREE.MeshBasicMaterial({ color: color });
 
-  defenser = new THREE.Object3D;
+  var defenser = new THREE.Object3D;
 
   var mesh1 = new THREE.Mesh(geometry, material);
   var mesh2 = new THREE.Mesh(geometry, material);
@@ -113,9 +100,9 @@ Invaders.prototype.initPlayer = function (color, emitter) {
     defenser.position.x += 20;
   }
 
-  self.players.add(defenser);
-
   defenser.position.y = -220;
+
+  self.players.add(defenser);
 
   emitter.on('event', function (data) {
     var name = data.name + ':' + data.type;
@@ -130,24 +117,12 @@ Invaders.prototype.initPlayer = function (color, emitter) {
       case 'left:up':
       case 'right:up':
         defenser.direction = '';
-    }
-
-  });
-
-};
-
-Invaders.prototype.initBullet = function (emitter, defenser) {
-
-  var self = this;
-
-  emitter.on('event', function (data) {
-    var name = data.name + ':' + data.type;
-
-    switch (name) {
+        break;
       case 'a:down':
       case 'b:down':
-        if (! self.emitter.bullet)
+        if (! defenser.bullet)
           self.throwBullet(defenser);
+
     }
 
   });
@@ -158,7 +133,7 @@ Invaders.prototype.throwBullet = function (defenser) {
 
   var self = this;
 
-  if (! defenser.bullet) return;
+  if (defenser.bullet) return;
 
   var geometry = new THREE.BoxGeometry(self.size / 4, self.size / 2, 5);
   var material = new THREE.MeshBasicMaterial({ color: 0xFECD5A });
@@ -168,9 +143,11 @@ Invaders.prototype.throwBullet = function (defenser) {
   bullet.position.y = -200;
   bullet.position.x = defenser.position.x;
 
-  self.bullets.add(bullet);
+  /// LOLOLOLOL
+  defenser.bullet = bullet;
+  bullet.defenser = defenser;
 
-  self.scene.add(self.bullets);
+  self.scene.add(bullet);
 
 };
 
@@ -220,6 +197,7 @@ Invaders.prototype.animateDefenser = function () {
 };
 
 Invaders.prototype.animateInvaders = function () {
+
   var rows = this.group.children;
   
   for (var i = 0; i < rows.length; i++) {
@@ -235,6 +213,7 @@ Invaders.prototype.animateInvaders = function () {
 
     row.move += 1;
   }
+
 };
 
 Invaders.prototype.destroyInvader = function (mesh) {
@@ -252,6 +231,7 @@ Invaders.prototype.destroyInvader = function (mesh) {
   self.all = self.all.filter(function (invader) {
     return invader.id !== mesh.id;
   });
+
 };
 
 Invaders.prototype.destroyBullet = function (mesh) {
@@ -260,60 +240,84 @@ Invaders.prototype.destroyBullet = function (mesh) {
 
   mesh.visible = false;
   self.scene.remove(mesh);
-  self.bullet = null;
+
+  mesh.defenser.bullet = null;
+  mesh.defenser = null;
 
 };
 
 Invaders.prototype.animateBullet = function () {
 
-  console.log('animate bullets');
-
   var self = this;
 
-  if (! self.bullet) return
+  if (self.players.children.length !== 2) return;
 
-  self.bullet.position.y += 5;
+  for (var i = 0; i < 2; i++) {
 
-  if (self.bullet.position.y > 220) {
-    self.destroyBullet(self.bullet);
-    return;
+    var bullet = self.players.children[i].bullet;
+
+    window.test = self.players.children[i];
+
+    if (! bullet) continue;
+
+    bullet.position.y += 5;
+
+    if (bullet.position.y > 220) {
+      self.destroyBullet(bullet);
+      return;
+    }
   }
 
 };
 
 Invaders.prototype.collideBullet = function () {
 
-  // TODO;
-  return;
-
   var self = this;
-
-  if (! self.bullet) return;
 
   // master of all, collisionmaster
 
-  var originPoint = self.bullet.position.clone();
+  console.log('shit');
 
-  for (var vertexIndex = 0; vertexIndex < self.bullet.geometry.vertices.length; vertexIndex++) {
+  if (self.players.children.length !== 2) return;
 
-    var localVertex = self.bullet.geometry.vertices[vertexIndex].clone();
-    var globalVertex = localVertex.applyMatrix4(self.bullet.matrix);
-    var directionVector = globalVertex.sub(self.bullet.position);
+  console.log('playerebi ar gvkavs');
 
-    var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-    var collisionResults = ray.intersectObjects(self.all);
+  for (var i = 0; i < 2; i++) {
 
-    if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+    var bullet = self.players.children[i].bullet;
 
-      var mesh = collisionResults[0].object;
+    if (! bullet) continue;
 
-      // remove invader
-      self.destroyInvader(mesh);
+    console.log('buletia buletis unaxavia');
 
-      // remove bullet
-      self.destroyBullet(self.bullet);
+    var originPoint = self.players.children[i].bullet.position.clone();
 
-      break;
+    for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
+
+      var localVertex = bullet.geometry.vertices[vertexIndex].clone();
+      var globalVertex = localVertex.applyMatrix4(bullet.matrix);
+      var directionVector = globalVertex.sub(bullet.position);
+
+      var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+      var collisionResults = ray.intersectObjects(self.all);
+
+      console.log('vamocmeb kolizias');
+
+      if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+
+        console.log('aris kolizia');
+
+        var mesh = collisionResults[0].object;
+
+        // remove invader
+        self.destroyInvader(mesh);
+
+        // remove bullet
+        self.destroyBullet(bullet);
+
+        break;
+      }
+
     }
 
   }
