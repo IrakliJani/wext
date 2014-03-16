@@ -54,6 +54,22 @@ if (window.location.hash === "") {
     QR('controller_qr', id);
   });
 
+  peer.on('connection', function (conn) {
+    var emitter = new Emitter(conn);
+
+    conn.on('open', function () {
+      emitter.on('controller', function () {
+        emitter.on('event', function (e) {
+          console.log(e.name + ':' + e.type);
+
+          if (e.type === 'acceleration') {
+            console.log(e.data);
+          }
+        });
+      });
+    });
+  });
+
   conn.on('open', function() {
     emitter.emit('ready');
     $('#controller_qr').show();

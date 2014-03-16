@@ -12,11 +12,12 @@ $(function () {
 
   conn.on('open', function() {
     emitter.emit('controller');
-    emitter.emit('event', { name : 'tmp', args : 'tttl' });
   });
 
   window.sendEvent = function (data) {
-    emitter.emit('event', data);
+    if (emitter) {
+      emitter.emit('event', data);
+    }
   };
 });
 
@@ -26,6 +27,15 @@ $(function () {
   // events go wild
   $(document).click(function () {
     launchFullscreen(document.documentElement);
+  });
+
+  gyro.frequency = 200;
+  gyro.startTracking(function (o) {
+    sendEvent({
+          name : 'acceleration',
+          type : 'acceleration',
+          data : o
+      }, 200);
   });
 
   FastClick.attach(document.body);
