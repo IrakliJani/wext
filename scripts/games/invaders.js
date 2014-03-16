@@ -231,8 +231,6 @@ Invaders.prototype.collideBullet = function () {
 
   if (! self.bullet) return;
 
-  console.log(self.bullet);
-
   // master of all, collisionmaster
 
   var originPoint = self.bullet.position.clone();
@@ -246,11 +244,7 @@ Invaders.prototype.collideBullet = function () {
     var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
     var collisionResults = ray.intersectObjects(self.all);
 
-    console.log(collisionResults);
-
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
-
-      console.log('hit');
 
       var mesh = collisionResults[0].object;
 
@@ -277,7 +271,7 @@ Invaders.prototype.testLoose = function () {
     if (row.children.length === 0) continue;
 
     if (row.position.y <= -300) {
-      console.log('you sucker looser eat my huge boner');
+      console.log('you loose');
     }
   }
 
