@@ -51,7 +51,6 @@ if (window.location.hash === "") {
         emitter.on('event', function (e) {
           var name = e.name + ':' + e.type;
 
-          console.log(name);
 
           switch (name) {
             case 'down:down':
@@ -172,8 +171,6 @@ function initGame(emitter, color) {
   animate();
 
   function init() {
-
-    console.log(emitter);
 
     var width = $('#canvas').width(),
         height = $('#canvas').height();

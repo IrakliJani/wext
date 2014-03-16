@@ -340,7 +340,7 @@ Invaders.prototype.testLoose = function () {
 
     if (row.children.length === 0) continue;
 
-    if (row.position.y <= -300) {
+    if (row.position.y <= -305) {
       console.log('you loose');
     }
   }
