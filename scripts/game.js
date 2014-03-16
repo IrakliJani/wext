@@ -8,9 +8,8 @@ var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game-url').hide();
 $('#controller-qr').hide();
 
-// $('#send-view').hide();
-// $('#select-view').hide();
-
+//$('#send-view').hide();
+$('#select-view').hide();
 $('#game-view').hide();
 
 if (window.location.hash === "") {
@@ -47,6 +46,7 @@ if (window.location.hash === "") {
       emitter.on('controller', function () {
 
         $('#send-view').hide();
+        $('#select-view').show();
 
         emitter.on('event', function (e) {
           var name = e.name + ':' + e.type;
