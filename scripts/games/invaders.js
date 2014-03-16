@@ -155,7 +155,7 @@ Invaders.prototype.initBullet = function () {
   $('body').keydown(function (e) {
     if (e.keyCode !== 32) return;
 
-    if (! self.bullet)
+    if (! self.bullet && ! self.end)
       self.throwBullet();
   });
 
@@ -202,14 +202,18 @@ Invaders.prototype.draw = function () {
 
 Invaders.prototype.animate = function () {
 
-  this.animateInvaders();
-  this.animateDefenser();
+  var self = this;
 
-  this.animateBullet();
-  this.collideBullet();
+  if (! self.end) {
+    self.animateInvaders();
+    self.animateDefenser();
 
-  this.testLoose();
-  this.testWin();
+    self.animateBullet();
+    self.collideBullet();
+
+    self.testLoose();
+    self.testWin();
+  }
 
 };
 
@@ -346,5 +350,13 @@ Invaders.prototype.testLoose = function () {
       $('#game-view').hide();
     }
   }
+
+};
+
+Invaders.prototype.stop = function () {
+
+  var self = this;
+
+  self.end = true;
 
 };
