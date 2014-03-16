@@ -182,7 +182,7 @@ Invaders.prototype.throwBullet = function () {
   var geometry = new THREE.BoxGeometry(self.size / 4, self.size / 2, 5);
   var material = new THREE.MeshBasicMaterial({ color: 0xFECD5A });
 
-  self.bullet = new THREE.Mesh(geometry, self.material);
+  self.bullet = new THREE.Mesh(geometry, material);
   self.bullet.position.y = -200;
   self.bullet.position.x = self.defenser.position.x;
 
@@ -209,6 +209,7 @@ Invaders.prototype.animate = function () {
   this.collideBullet();
 
   this.testLoose();
+  this.testWin();
 
 };
 
@@ -316,6 +317,16 @@ Invaders.prototype.collideBullet = function () {
       break;
     }
 
+  }
+
+};
+
+Invaders.prototype.testWin = function () {
+
+  var self = this;
+
+  if (self.all.length === 0) {
+    console.log('you win');
   }
 
 };
