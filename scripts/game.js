@@ -79,10 +79,19 @@ if (window.location.hash === "") {
 
               break;
 
-            case 'select:up':
+            case 'select:down':
+
+
+              if (window.started) break;
+
+              window.started = true;
+              window.color = $('#select-view ul li.active').data('color');
+
 
               $('#select-view').hide();
               $('#game-view').show();
+
+              initGame();
 
               break;
 
@@ -144,4 +153,57 @@ function QR(selector, text) {
     colorLight: '#F2F2F2',
     correctLevel: QRCode.CorrectLevel.H
   });
+}
+
+function initGame() {
+  var stats = new Stats();
+  stats.setMode(0);
+
+  $(stats.domElement).css({
+    position: 'absolute',
+    right: '0px',
+    top: '0px'
+  });
+
+  $('body').append(stats.domElement);
+
+  var camera, scene, renderer;
+
+  var invaders;
+
+  init();
+  animate();
+
+  function init() {
+
+    var width = $('#canvas').width(),
+        height = $('#canvas').height();
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor(0x00);
+
+    renderer.setSize(width, height);
+    document.getElementById('canvas').appendChild(renderer.domElement);
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.position.z = 600;
+
+    invaders = new Invaders(scene, width, 3, 10);
+    invaders.init();
+    invaders.draw();
+
+  }
+
+  function animate() {
+    stats.begin();
+
+    renderer.render(scene, camera);
+    invaders.animate();
+
+    requestAnimationFrame(animate);
+    stats.end();
+  }
 }

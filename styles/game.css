@@ -16,6 +16,10 @@
   margin-bottom: 20px;
 }
 
+#canvas {
+  width: 600px;
+  height: 600px;
+}
 
   #select-view ul {
     font-size: 2em;
