@@ -27,7 +27,6 @@ peer.on('connection', function (conn) {
     $('#connections div:nth-child('+ (conn.controller + 1) + ')').removeClass('connected').addClass('disconnected').html('Disconnected');
     controllers[conn.controller] = null;
     delete conn.controller;
-    alert('peer disconnected');
   });
 
   conn.on('open', function () {
