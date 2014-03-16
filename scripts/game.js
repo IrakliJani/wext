@@ -14,6 +14,7 @@ $('#game-view').hide();
 peer.on('open', function (id) {
   QR('controller-qr', id);
   $('#controller-qr').show();
+  $('#controllers').show();
 });
 
 var controllers = [];
@@ -72,9 +73,7 @@ peer.on('connection', function (conn) {
           initGame(emitter, color);
 
           break;
-
       }
-
     });
   });
 });
