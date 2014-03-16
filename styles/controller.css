@@ -22,24 +22,6 @@ html,body {
   font-size: 2.2em;
 }
 
-
-@font-face {
-  font-family: 'Pretendo';
-  src: url('http://attackmupp.com/resources/nespad/Pretendo.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'NESController';
-  src: url('http://attackmupp.com/resources/nespad/nes_controller_cad_mrshrike.woff') format('woff');
-}
-
-* {
-  box-sizing: border-box;
-  font: inherit;
-}
-
-body { font: 15px/2 nescontroller,sans-serif; }
-
 .button {
   outline: none;
 }

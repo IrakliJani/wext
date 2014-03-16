@@ -19,9 +19,11 @@ $(function () {
       emitter.emit('event', data);
     }
   };
-});
 
-$(function () {
+
+  // davitas teritoria
+
+
   draw_things();
   
   // events go wild
@@ -32,10 +34,10 @@ $(function () {
   gyro.frequency = 200;
   gyro.startTracking(function (o) {
     sendEvent({
-          name : 'acceleration',
-          type : 'acceleration',
-          data : o
-      }, 200);
+      name : 'acceleration',
+      type : 'acceleration',
+      data : o
+    }, 200);
   });
 
   FastClick.attach(document.body);

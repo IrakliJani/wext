@@ -2,10 +2,17 @@ if (isMobile()) {
   redirect('/');
 }
 
-var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
+var peer = new Peer('master', { key: 'z0bavx5ok1emi', debug: 2 });
 
-$('#game_url').hide();
-$('#controller_qr').hide();
+$('#game-url').hide();
+$('#controller-qr').hide();
+
+
+//$('#send-view').hide();
+//$('#select-view').hide();
+
+
+$('#game-view').hide();
 
 if (window.location.hash === "") {
 
@@ -16,9 +23,9 @@ if (window.location.hash === "") {
     var url = window.location.href;
     window.location.hash = id;
 
-    $('#game_url').attr('href', url).show();
-    QR('controller_qr', id);
-    $('#controller_qr').show();
+    $('#game-url').attr('href', url).show();
+    QR('controller-qr', id);
+    $('#controller-qr').show();
 
   });
 
@@ -28,14 +35,57 @@ if (window.location.hash === "") {
     conn.on('open', function () {
       var type;
       emitter.on('ready', function () {
-        $('#game_url').hide();
+        $('#game-url').hide();
       });
 
       emitter.on('controller', function () {
+
+        $('#send-view').hide();
+
         emitter.on('event', function (e) {
-          console.log(e.name + ':' + e.type);
+          var name = e.name + ':' + e.type;
+
+          switch (name) {
+            case 'down:down':
+
+              var next = $('#select-view ul li.active')
+                .removeClass('active')
+                .next();
+
+              if (next.length) {
+                next.addClass('active');
+              } else {
+                $('#select-view ul li').first().addClass('active');
+              }
+
+              break;
+            case 'up:down':
+
+              var prev = $('#select-view ul li.active')
+                .removeClass('active')
+                .prev();
+
+              if (prev.length) {
+                prev.addClass('active');
+              } else {
+                $('#select-view ul li').last().addClass('active');
+              }
+
+              break;
+          }
+
+
+
+
+
+
+
+
         });
+
+
       });
+
     });
   });
 
@@ -49,7 +99,7 @@ if (window.location.hash === "") {
       emitter = new Emitter(conn);
 
   peer.on('open', function (id) {
-    QR('controller_qr', id);
+    QR('controller-qr', id);
   });
 
   peer.on('connection', function (conn) {
@@ -70,7 +120,7 @@ if (window.location.hash === "") {
 
   conn.on('open', function() {
     emitter.emit('ready');
-    $('#controller_qr').show();
+    $('#controller-qr').show();
   });
 
 }
