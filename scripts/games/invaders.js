@@ -155,7 +155,7 @@ Invaders.prototype.initBullet = function () {
   $('body').keydown(function (e) {
     if (e.keyCode !== 32) return;
 
-    if (! self.bullet)
+    if (! self.bullet && ! self.end)
       self.throwBullet();
   });
 
