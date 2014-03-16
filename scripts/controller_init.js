@@ -46,12 +46,15 @@ var video  = $('video'),
 var shotsInterval;
 
 MediaStreamTrack.getSources(function (sources) {
-  var c = 1;
-  sources.forEach(function (source, i) {
+  var c = 1, source;
+  console.log(sources.length);
+  for (var i = sources.length - 1; i >= 0; i--) {
+    source = sources[i];
+
     if (source.kind === 'video') {
       camList.append('<option value="' + source.id +'"> Camera ' + (c++) + '</option>');
     }
-  });
+  }
 });
 
 qrcode.callback = gotId;

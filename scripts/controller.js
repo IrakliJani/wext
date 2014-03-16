@@ -4,11 +4,11 @@ $(function () {
     redirect('/');
   }
 
-  var id = window.location.hash.slice(1);
-  window.peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
-
-  window.conn = peer.connect(id);
-  var emitter = new Emitter(conn);
+  var id = window.location.hash.slice(1),
+    peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
+    conn = peer.connect(id),
+    emitter = new Emitter(conn),
+    acceleration = false;
 
   conn.on('open', function() {
     emitter.emit('controller');
@@ -20,24 +20,28 @@ $(function () {
     }
   };
 
+  emitter.on('acceleration', function (status, frequency) {
+    if (status === 'on' || acceleration === true) {
+      gyro.frequency = frequency;
+      gyro.startTracking(function (o) {
+        sendEvent({
+              name : 'acceleration',
+              type : 'acceleration',
+              data : o
+          }, 200);
+      });
+    } else {
+      gyro.stopTracking();
+    }
+  });
 
   // davitas teritoria
-
 
   draw_things();
   
   // events go wild
   $(document).click(function () {
     launchFullscreen(document.documentElement);
-  });
-
-  gyro.frequency = 200;
-  gyro.startTracking(function (o) {
-    sendEvent({
-      name : 'acceleration',
-      type : 'acceleration',
-      data : o
-    }, 200);
   });
 
   FastClick.attach(document.body);
