@@ -1,4 +1,6 @@
-function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
+function Invaders (scene, color, width, rows, bricks_in_row) {
+
+
 
   this.width = width; // canvas width;
   this.scene = scene;
@@ -18,12 +20,9 @@ function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
 
   // let's group some invaders
   this.all = [];
+
   this.group = new THREE.Object3D();
-
-  this.defenser;
-  this.bullet;
-
-  this.emitter = emitter;
+  this.bullets = new THREE.Object3D();
 
   switch (color) {
     case 'red':
@@ -37,6 +36,8 @@ function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
       break;
   }
 
+  this.players = new THREE.Object3D();
+
 }
 
 Invaders.prototype.init = function () {
@@ -44,8 +45,7 @@ Invaders.prototype.init = function () {
   var self = this;
 
   self.initInvaders();
-  self.initDefenser();
-  self.initBullet();
+  //self.initBullet();
 
 };
 
@@ -88,14 +88,14 @@ Invaders.prototype.initInvaders = function () {
 
 };
 
-Invaders.prototype.initDefenser = function () {
+Invaders.prototype.initPlayer = function (color, emitter) {
 
   var self = this;
 
   var geometry = new THREE.BoxGeometry(self.size / 2, self.size / 2, 5);
-  var material = new THREE.MeshBasicMaterial({ color: self.color });
+  var material = new THREE.MeshBasicMaterial({ color: color });
 
-  self.defenser = new THREE.Object3D;
+  defenser = new THREE.Object3D;
 
   var mesh1 = new THREE.Mesh(geometry, material);
   var mesh2 = new THREE.Mesh(geometry, material);
@@ -103,90 +103,74 @@ Invaders.prototype.initDefenser = function () {
   mesh1.position.x -= 10;
   mesh2.position.y += 10;
   mesh3.position.x += 10;
-  self.defenser.add(mesh1);
-  self.defenser.add(mesh2);
-  self.defenser.add(mesh3);
+  defenser.add(mesh1);
+  defenser.add(mesh2);
+  defenser.add(mesh3);
 
-  self.defenser.position.y = -220;
+  if (self.players.children.length === 0) {
+    defenser.position.x -= 20;
+  } else {
+    defenser.position.x += 20;
+  }
 
-  // ugly?
-  $('body')
-    .keydown(function (e) {
-      switch (e.keyCode) {
-        case 37:
-          self.defenser.direction = 'left';
-          break;
-        case 39:
-          self.defenser.direction = 'right';
-          break;
-      }
-    })
-    .keyup(function (e) {
-      switch (e.keyCode) {
-        case 37:
-        case 39:
-          self.defenser.direction = '';
-      }
-    });
+  self.players.add(defenser);
 
-  self.emitter.on('event', function (data) {
+  defenser.position.y = -220;
+
+  emitter.on('event', function (data) {
     var name = data.name + ':' + data.type;
 
     switch (name) {
       case 'left:down':
-        self.defenser.direction = 'left';
+        defenser.direction = 'left';
         break;
       case 'right:down':
-        self.defenser.direction = 'right';
+        defenser.direction = 'right';
         break;
       case 'left:up':
       case 'right:up':
-        self.defenser.direction = '';
+        defenser.direction = '';
     }
 
   });
 
 };
 
-Invaders.prototype.initBullet = function () {
+Invaders.prototype.initBullet = function (emitter, defenser) {
 
   var self = this;
 
-  $('body').keydown(function (e) {
-    if (e.keyCode !== 32) return;
-
-    if (! self.bullet && ! self.end)
-      self.throwBullet();
-  });
-
-  self.emitter.on('event', function (data) {
+  emitter.on('event', function (data) {
     var name = data.name + ':' + data.type;
 
     switch (name) {
       case 'a:down':
       case 'b:down':
-        if (! self.bullet)
-          self.throwBullet();
+        if (! self.emitter.bullet)
+          self.throwBullet(defenser);
     }
 
   });
 
 };
 
-Invaders.prototype.throwBullet = function () {
+Invaders.prototype.throwBullet = function (defenser) {
 
   var self = this;
 
-  if (self.bullet) return;
+  if (! defenser.bullet) return;
 
   var geometry = new THREE.BoxGeometry(self.size / 4, self.size / 2, 5);
   var material = new THREE.MeshBasicMaterial({ color: 0xFECD5A });
 
-  self.bullet = new THREE.Mesh(geometry, material);
-  self.bullet.position.y = -200;
-  self.bullet.position.x = self.defenser.position.x;
+  var bullet = new THREE.Mesh(geometry, material);
 
-  self.scene.add(self.bullet);
+  bullet.position.y = -200;
+  bullet.position.x = defenser.position.x;
+
+  self.bullets.add(bullet);
+
+  self.scene.add(self.bullets);
 
 };
 
@@ -196,9 +180,11 @@ Invaders.prototype.draw = function () {
   this.group.position.y += 200;
 
   this.scene.add(this.group);
-  this.scene.add(this.defenser);
+  this.scene.add(this.players);
 
 };
+
+// animate
 
 Invaders.prototype.animate = function () {
 
@@ -219,12 +205,16 @@ Invaders.prototype.animate = function () {
 
 Invaders.prototype.animateDefenser = function () {
 
-  var defenser = this.defenser;
+  for (var i = 0; i < 2; i++) {
+    var defenser = this.players.children[i];
 
-  if (defenser.direction === 'left' && defenser.position.x > -200) {
-    defenser.position.x -= 3;
-  } else if (defenser.direction === 'right' && defenser.position.x < 200) {
-    defenser.position.x += 3;
+    if (! defenser) return;
+
+    if (defenser.direction === 'left' && defenser.position.x > -200) {
+      defenser.position.x -= 3;
+    } else if (defenser.direction === 'right' && defenser.position.x < 200) {
+      defenser.position.x += 3;
+    }
   }
 
 };
@@ -276,6 +266,8 @@ Invaders.prototype.destroyBullet = function (mesh) {
 
 Invaders.prototype.animateBullet = function () {
 
+  console.log('animate bullets');
+
   var self = this;
 
   if (! self.bullet) return
@@ -290,6 +282,9 @@ Invaders.prototype.animateBullet = function () {
 };
 
 Invaders.prototype.collideBullet = function () {
+
+  // TODO;
+  return;
 
   var self = this;
 
@@ -358,3 +353,4 @@ Invaders.prototype.stop = function () {
   self.end = true;
 
 };
+

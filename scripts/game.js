@@ -151,7 +151,8 @@ function QR(selector, text) {
   });
 }
 
-function initGame(emitter, color) {
+function initGame(color) {
+
   var stats = new Stats();
   stats.setMode(0);
 
@@ -170,6 +171,8 @@ function initGame(emitter, color) {
   init();
   animate();
 
+
+
   function init() {
 
     var width = $('#canvas').width(),
@@ -187,7 +190,8 @@ function initGame(emitter, color) {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.position.z = 600;
 
-    window.invaders = invaders = new Invaders(emitter, scene, color, width, 3, 10);
+    window.invaders = invaders = new Invaders(scene, color, width, 3, 10);
+
     invaders.init();
     invaders.draw();
 
