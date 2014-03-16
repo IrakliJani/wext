@@ -23,7 +23,6 @@ peer.on('connection', function (conn) {
   var emitter = new Emitter(conn);
 
   conn.on('close', function () {
-    console.log('Disconnected');
     $('#connections div:nth-child('+ (conn.controller + 1) + ')').removeClass('connected').addClass('disconnected').html('Disconnected');
     controllers[conn.controller] = null;
     delete conn.controller;
