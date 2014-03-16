@@ -330,7 +330,7 @@ Invaders.prototype.testWin = function () {
   var self = this;
 
   if (self.all.length === 0) {
-    $('#doge.loose').show();
+    $('.doge.loose').show();
     $('#game-view').hide();
   }
 
@@ -346,7 +346,7 @@ Invaders.prototype.testLoose = function () {
     if (row.children.length === 0) continue;
 
     if (row.position.y <= -305) {
-      $('#doge.win').show();
+      $('.doge.win').show();
       $('#game-view').hide();
     }
   }
