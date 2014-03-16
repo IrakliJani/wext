@@ -28,3 +28,11 @@ body {
 .center {
   text-align: center;
 }
+
+.desktop-show, .mobile-show {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 5.5rem;
+  font-size: 1.1em;
+}

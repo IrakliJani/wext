@@ -2,8 +2,26 @@
   margin-bottom: 20px;
 }
 
-#game_url {
-  font-size: 1.3em;
+.connect-cntrl {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 1.7em !important;
+  text-transform: initial;
+  color: #333 !important;
+  margin-left: -11px;
+}
+
+#controller-qr {
+  display: inline-block;
+  text-align: center;
+}
+
+#game-url {
+  display: inline-block;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 5.5rem;
+  font-size: 1.1em;
 }
 
 .margin-bottom-10 {
@@ -25,25 +43,32 @@
     font-size: 2em;
     margin: 0;
     padding: 0;
+    list-style: none;
+    text-align: center;
   }
 
     #select-view ul li {
       margin: 0;
       padding: 0;
+      padding: 0.4em;
+      color: white;
+      font-size: 1.5em;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      text-transform: uppercase;
     }
 
       #select-view ul li.red {
-        color: red;
+        background-color: #c0392b;
       }
 
       #select-view ul li.green {
-        color: green;
+        background-color: #27ae60;
       }
 
       #select-view ul li.blue {
-        color: blue;
+        background-color: #34495e;
       }
 
       #select-view ul li.active {
-        background-color: #000;
+        font-size: 2em;
       }

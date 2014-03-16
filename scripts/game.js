@@ -8,8 +8,8 @@ var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game-url').hide();
 $('#controller-qr').hide();
 
-//$('#send-view').hide();
-//$('#select-view').hide();
+// $('#send-view').hide();
+// $('#select-view').hide();
 
 $('#game-view').hide();
 
