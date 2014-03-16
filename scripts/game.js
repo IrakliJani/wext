@@ -40,40 +40,41 @@ peer.on('connection', function (conn) {
 
     $('#connections div:nth-child(' + (1 + i) + ')').removeClass('disconnected').addClass('connected').html('Connected');
 
-    if (controllers.length !== 2) {
-      return;
+    if (controllers.length === 2) {
+      $('#send-view').hide();
+      $('#select-view').show();
     }
 
-    $('#send-view').hide();
-    $('#select-view').show();
 
     emitter.on('event', function (e) {
       var name = e.name + ':' + e.type;
+      var selector = '#player' + (1 + conn.controller) + ' li';
+      console.log(name + ' |||' + selector);
 
       switch (name) {
         case 'down:down':
 
-          var next = $('#select-view ul li.active')
+          var next = $(selector + '.active')
             .removeClass('active')
             .next();
 
           if (next.length) {
             next.addClass('active');
           } else {
-            $('#select-view ul li').first().addClass('active');
+            $(selector).first().addClass('active');
           }
 
           break;
         case 'up:down':
 
-          var prev = $('#select-view ul li.active')
+          var prev = $(selector + '.active')
             .removeClass('active')
             .prev();
 
           if (prev.length) {
             prev.addClass('active');
           } else {
-            $('#select-view ul li').last().addClass('active');
+            $(selector).last().addClass('active');
           }
 
           break;
@@ -83,7 +84,7 @@ peer.on('connection', function (conn) {
           if (window.started) break;
 
           window.started = true;
-          var color = $('#select-view ul li.active').data('color');
+          var color = $(selector + '.active').data('color');
 
           $('#select-view').hide();
           $('#game-view').show();

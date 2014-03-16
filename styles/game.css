@@ -58,13 +58,6 @@
   text-transform: uppercase;
 }
 
-#select-view ul li.red {
-  background-color: #c0392b;
-}
-
-#select-view ul li.green {
-  background-color: #27ae60;
-}
 
 #select-view ul li {
   margin: 0;
