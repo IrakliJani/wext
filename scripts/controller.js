@@ -1,8 +1,8 @@
 //setup connection
 $(function () {
-  if (window.location.hash.length < 1 || !isMobile()) {
-    redirect('/');
-  }
+  // if (window.location.hash.length < 1 || !isMobile()) {
+  //   redirect('/');
+  // }
 
   var id = window.location.hash.slice(1),
     peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
