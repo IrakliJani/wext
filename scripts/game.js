@@ -27,8 +27,12 @@ if (window.location.hash === "") {
 
     conn.on('open', function () {
       var type;
-      emitter.on('ready', function () {
+      emitter.on('peerConnected', function () {
         $('#game_url').hide();
+      });
+
+      emitter.on('ready', function () {
+        alert('other peer is ready, you\'re the last');
       });
 
       emitter.on('controller', function () {
@@ -53,11 +57,12 @@ if (window.location.hash === "") {
   });
 
   peer.on('connection', function (conn) {
-    var emitter = new Emitter(conn);
+    var ctrl_emitter = new Emitter(conn);
 
     conn.on('open', function () {
-      emitter.on('controller', function () {
-        emitter.on('event', function (e) {
+      ctrl_emitter.on('controller', function () {
+        emitter.emit('ready');
+        ctrl_emitter.on('event', function (e) {
           console.log(e.name + ':' + e.type);
 
           if (e.type === 'acceleration') {
@@ -69,7 +74,7 @@ if (window.location.hash === "") {
   });
 
   conn.on('open', function() {
-    emitter.emit('ready');
+    emitter.emit('peerConnected');
     $('#controller_qr').show();
   });
 
