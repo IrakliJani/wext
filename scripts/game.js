@@ -45,6 +45,8 @@ if (window.location.hash === "") {
         emitter.on('event', function (e) {
           var name = e.name + ':' + e.type;
 
+          console.log(name);
+
           switch (name) {
             case 'down:down':
 
@@ -72,12 +74,15 @@ if (window.location.hash === "") {
               }
 
               break;
+
+            case 'select:up':
+
+              $('#select-view').hide();
+              $('#game-view').show();
+
+              break;
+
           }
-
-
-
-
-
 
 
 
