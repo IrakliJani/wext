@@ -70,16 +70,6 @@ html,body {
     height: 2.6em;
     position: relative;
   }
-  .dpad-pane:before, .dpad-pane:after {
-    content: "";
-    background-color: #ddd;
-    width: 100%;
-    height: 280%;
-    position: absolute;
-    top: -94%;
-    left: 0;
-    border-radius: .3em;
-  }
     .dpad-hole:before, .dpad-hole:after {
       content: "";
       background-color: #000;
@@ -143,8 +133,8 @@ html,body {
       #dpad .button {
         position: absolute;
         z-index: 2;
-        width: 2em;
-        height: 2em;
+        width: 3em;
+        height: 3em;
         background-color: rgba(0, 0, 0, 0); /* "transparent" buttons in ie9 aren't clickable, but rgba can be used */
         border: none;
         padding: 0;
@@ -170,23 +160,25 @@ html,body {
         border-width: .1em;
         border-style: solid;
       }
-      #up { top: -2.7em; }
+      #up { top: -3.1em; }
         #up:before { border-color: #151515 #444 transparent transparent; }
         #up:after { border-color: transparent #444 #444 #151515; }
       #right {
         left: 2.7em;
+        top: -0.8em;
         transform: rotate(90deg);
       }
         #right:before { border-color: #444 #444 transparent transparent; }
         #right:after { border-color: transparent #444 #151515 #151515; }
       #down {
-        top: 2.7em;
+        top: 1.5em;
         transform: rotate(180deg);
       }
         #down:before { border-color: #444 #151515 transparent transparent; }
         #down:after { border-color: transparent #151515 #151515 #444; }
       #left {
-        left: -2.7em;
+        left: -2.4em;
+        top: -0.9em;
         transform: rotate(270deg);
       }
         #left:before { border-color: #444 #151515 transparent transparent; }

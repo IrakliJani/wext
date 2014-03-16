@@ -45,7 +45,25 @@ $(function () {
   });
 
   FastClick.attach(document.body);
+ 
+  //orientation stuff
+  if(Math.abs(window.orientation) === 90 || window.orientation === undefined) {
+    $('.rotate').hide();
+    $('#nespad').show()
+  } else {
+    $('.rotate').show();
+    $('#nespad').hide();
+  }
 
+  $(window).on("orientationchange", function() {
+    if(Math.abs(window.orientation) === 90) {
+      $('.rotate').hide();
+      $('#nespad').show()
+    } else {
+      $('.rotate').show();
+      $('#nespad').hide()
+    }
+  });
   //a and b down
   $('.action-pane .button').on('touchstart mousedown',function (e){
     var data = {
@@ -106,25 +124,6 @@ $(function () {
     sendEvent(data);
     e.preventDefault(); 
     $("#dpad").removeClass(data.name);
-  });
-
-  //orientation stuff
-  if(Math.abs(window.orientation) === 90 || window.orientation === undefined) {
-    $('.rotate').hide();
-    $('#nespad').show()
-  } else {
-    $('.rotate').show();
-    $('#nespad').hide();
-  }
-
-  $(window).on("orientationchange", function() {
-    if(Math.abs(window.orientation) === 90) {
-      $('.rotate').hide();
-      $('#nespad').show()
-    } else {
-      $('.rotate').show();
-      $('#nespad').hide()
-    }
   });
 });
 
