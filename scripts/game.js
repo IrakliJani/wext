@@ -16,80 +16,66 @@ peer.on('open', function (id) {
   $('#controller-qr').show();
 });
 
+var controllers = [];
 peer.on('connection', function (conn) {
   var emitter = new Emitter(conn);
 
-  // black code don't do that, please I'll do that, ok but not in the next time pal, you will be a man someday so that's not right to do
-  // window.emitter = emitter;
+  conn.on('close', function () {
+    alert('peer disconnected');
+  });
 
   conn.on('open', function () {
-    var type;
-    emitter.on('peerConnected', function () {
-      $('#game_url').hide();
-    });
+    $('#send-view').hide();
+    $('#select-view').show();
 
-    emitter.on('ready', function () {
-      alert('other peer is ready, you\'re the last');
-    });
+    emitter.on('event', function (e) {
+      var name = e.name + ':' + e.type;
 
-    emitter.on('controller', function () {
+      switch (name) {
+        case 'down:down':
 
-      $('#send-view').hide();
-      $('#select-view').show();
+          var next = $('#select-view ul li.active')
+            .removeClass('active')
+            .next();
 
-      emitter.on('event', function (e) {
-        var name = e.name + ':' + e.type;
+          if (next.length) {
+            next.addClass('active');
+          } else {
+            $('#select-view ul li').first().addClass('active');
+          }
 
-        console.log(name);
+          break;
+        case 'up:down':
 
-        switch (name) {
-          case 'down:down':
+          var prev = $('#select-view ul li.active')
+            .removeClass('active')
+            .prev();
 
-            var next = $('#select-view ul li.active')
-              .removeClass('active')
-              .next();
+          if (prev.length) {
+            prev.addClass('active');
+          } else {
+            $('#select-view ul li').last().addClass('active');
+          }
 
-            if (next.length) {
-              next.addClass('active');
-            } else {
-              $('#select-view ul li').first().addClass('active');
-            }
+          break;
 
-            break;
-          case 'up:down':
+        case 'select:down':
 
-            var prev = $('#select-view ul li.active')
-              .removeClass('active')
-              .prev();
+          if (window.started) break;
 
-            if (prev.length) {
-              prev.addClass('active');
-            } else {
-              $('#select-view ul li').last().addClass('active');
-            }
+          window.started = true;
+          var color = $('#select-view ul li.active').data('color');
 
-            break;
+          $('#select-view').hide();
+          $('#game-view').show();
 
-          case 'select:down':
+          initGame(emitter, color);
 
-            if (window.started) break;
+          break;
 
-            window.started = true;
-            var color = $('#select-view ul li.active').data('color');
-
-            $('#select-view').hide();
-            $('#game-view').show();
-
-            initGame(emitter, color);
-
-            break;
-
-        }
-
-      });
+      }
 
     });
-
   });
 });
 
