@@ -8,138 +8,90 @@ var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game-url').hide();
 $('#controller-qr').hide();
 
-//$('#send-view').hide();
 $('#select-view').hide();
 $('#game-view').hide();
 
-if (window.location.hash === "") {
+peer.on('open', function (id) {
+  QR('controller-qr', id);
+  $('#controller-qr').show();
+});
 
-  // Master of all
+peer.on('connection', function (conn) {
+  var emitter = new Emitter(conn);
 
-  peer.on('open', function (id) {
+  // black code don't do that, please I'll do that, ok but not in the next time pal, you will be a man someday so that's not right to do
+  // window.emitter = emitter;
 
-    var url = window.location.href;
-    window.location.hash = id;
+  conn.on('open', function () {
+    var type;
+    emitter.on('peerConnected', function () {
+      $('#game_url').hide();
+    });
 
-    $('#game-url').attr('href', url).show();
-    QR('controller-qr', id);
-    $('#controller-qr').show();
+    emitter.on('ready', function () {
+      alert('other peer is ready, you\'re the last');
+    });
 
-  });
+    emitter.on('controller', function () {
 
-  peer.on('connection', function (conn) {
-    var emitter = new Emitter(conn);
+      $('#send-view').hide();
+      $('#select-view').show();
 
-    // black code don't do that, please I'll do that, ok but not in the next time pal, you will be a man someday so that's not right to do
-    // window.emitter = emitter;
+      emitter.on('event', function (e) {
+        var name = e.name + ':' + e.type;
 
-    conn.on('open', function () {
-      var type;
-      emitter.on('peerConnected', function () {
-        $('#game_url').hide();
-      });
+        console.log(name);
 
-      emitter.on('ready', function () {
-        alert('other peer is ready, you\'re the last');
-      });
+        switch (name) {
+          case 'down:down':
 
-      emitter.on('controller', function () {
+            var next = $('#select-view ul li.active')
+              .removeClass('active')
+              .next();
 
-        $('#send-view').hide();
-        $('#select-view').show();
+            if (next.length) {
+              next.addClass('active');
+            } else {
+              $('#select-view ul li').first().addClass('active');
+            }
 
-        emitter.on('event', function (e) {
-          var name = e.name + ':' + e.type;
+            break;
+          case 'up:down':
 
-          console.log(name);
+            var prev = $('#select-view ul li.active')
+              .removeClass('active')
+              .prev();
 
-          switch (name) {
-            case 'down:down':
+            if (prev.length) {
+              prev.addClass('active');
+            } else {
+              $('#select-view ul li').last().addClass('active');
+            }
 
-              var next = $('#select-view ul li.active')
-                .removeClass('active')
-                .next();
+            break;
 
-              if (next.length) {
-                next.addClass('active');
-              } else {
-                $('#select-view ul li').first().addClass('active');
-              }
+          case 'select:down':
 
-              break;
-            case 'up:down':
+            if (window.started) break;
 
-              var prev = $('#select-view ul li.active')
-                .removeClass('active')
-                .prev();
+            window.started = true;
+            var color = $('#select-view ul li.active').data('color');
 
-              if (prev.length) {
-                prev.addClass('active');
-              } else {
-                $('#select-view ul li').last().addClass('active');
-              }
+            $('#select-view').hide();
+            $('#game-view').show();
 
-              break;
+            initGame(emitter, color);
 
-            case 'select:down':
+            break;
 
-              if (window.started) break;
-
-              window.started = true;
-              var color = $('#select-view ul li.active').data('color');
-
-              $('#select-view').hide();
-              $('#game-view').show();
-
-              initGame(emitter, color);
-
-              break;
-
-          }
-
-        });
+        }
 
       });
 
     });
+
   });
-
-} else {
-
-  // Enslaved peer
-
-  var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
-      id = window.location.hash.slice(1),
-      conn = peer.connect(id),
-      emitter = new Emitter(conn);
-
-  peer.on('open', function (id) {
-    QR('controller-qr', id);
-  });
-
-  peer.on('connection', function (conn) {
-    var ctrl_emitter = new Emitter(conn);
-
-    conn.on('open', function () {
-      ctrl_emitter.on('controller', function () {
-        emitter.emit('ready');
-        ctrl_emitter.on('event', function (e) {
-          console.log(e.name + ':' + e.type);
-
-          if (e.type === 'acceleration') {
-            console.log(e.data);
-          }
-        });
-      });
-    });
-  });
-
-  conn.on('open', function() {
-    emitter.emit('peerConnected');
-    $('#controller_qr').show();
-  });
-
-}
+});
 
 function QR(selector, text) {
   new QRCode(selector, {
