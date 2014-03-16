@@ -8,137 +8,102 @@ var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 $('#game-url').hide();
 $('#controller-qr').hide();
 
-//$('#send-view').hide();
 $('#select-view').hide();
 $('#game-view').hide();
 
-if (window.location.hash === "") {
+peer.on('open', function (id) {
+  QR('controller-qr', id);
+  $('#controller-qr').show();
+  $('#controllers').show();
+});
 
-  // Master of all
+var controllers = [];
 
-  peer.on('open', function (id) {
+peer.on('connection', function (conn) {
+  var emitter = new Emitter(conn);
 
-    var url = window.location.href;
-    window.location.hash = id;
-
-    $('#game-url').attr('href', url).show();
-    QR('controller-qr', id);
-    $('#controller-qr').show();
-
+  conn.on('close', function () {
+    $('#connections div:nth-child('+ (conn.controller + 1) + ')').removeClass('connected').addClass('disconnected').html('Disconnected');
+    controllers[conn.controller] = null;
+    delete conn.controller;
   });
 
-  peer.on('connection', function (conn) {
-    var emitter = new Emitter(conn);
+  conn.on('open', function () {
+    if (controllers.length > 2) {
+      emitter.emit('error', 'more connections than two');
+      conn.close();
+    }
 
-    // black code don't do that, please I'll do that, ok but not in the next time pal, you will be a man someday so that's not right to do
-    // window.emitter = emitter;
+    var i = controllers.length;
+    controllers[i] = conn;
+    conn.controller = i;
+    conn.ready = false;
 
-    conn.on('open', function () {
-      var type;
-      emitter.on('peerConnected', function () {
-        $('#game_url').hide();
-      });
+    $('#connections div:nth-child(' + (1 + i) + ')').removeClass('disconnected').addClass('connected').html('Connected');
 
-      emitter.on('ready', function () {
-        alert('other peer is ready, you\'re the last');
-      });
-
-      emitter.on('controller', function () {
-
-        $('#send-view').hide();
-        $('#select-view').show();
-
-        emitter.on('event', function (e) {
-          var name = e.name + ':' + e.type;
+    if (controllers.length === 2) {
+      $('#send-view').hide();
+      $('#select-view').show();
+    }
 
 
-          switch (name) {
-            case 'down:down':
+    emitter.on('event', function (e) {
+      var name = e.name + ':' + e.type;
+      var selector = '#player' + (1 + conn.controller) + ' li';
+      console.log(name + ' |||' + selector);
 
-              var next = $('#select-view ul li.active')
-                .removeClass('active')
-                .next();
+      switch (name) {
+        case 'down:down':
 
-              if (next.length) {
-                next.addClass('active');
-              } else {
-                $('#select-view ul li').first().addClass('active');
-              }
+          var next = $(selector + '.active')
+            .removeClass('active')
+            .next();
 
-              break;
-            case 'up:down':
-
-              var prev = $('#select-view ul li.active')
-                .removeClass('active')
-                .prev();
-
-              if (prev.length) {
-                prev.addClass('active');
-              } else {
-                $('#select-view ul li').last().addClass('active');
-              }
-
-              break;
-
-            case 'select:down':
-
-              if (window.started) break;
-
-              window.started = true;
-              var color = $('#select-view ul li.active').data('color');
-
-              $('#select-view').hide();
-              $('#game-view').show();
-
-              initGame(emitter, color);
-
-              break;
-
+          if (next.length) {
+            next.addClass('active');
+          } else {
+            $(selector).first().addClass('active');
           }
 
-        });
+          break;
+        case 'up:down':
 
-      });
+          var prev = $(selector + '.active')
+            .removeClass('active')
+            .prev();
 
-    });
-  });
-
-} else {
-
-  // Enslaved peer
-
-  var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 }),
-      id = window.location.hash.slice(1),
-      conn = peer.connect(id),
-      emitter = new Emitter(conn);
-
-  peer.on('open', function (id) {
-    QR('controller-qr', id);
-  });
-
-  peer.on('connection', function (conn) {
-    var ctrl_emitter = new Emitter(conn);
-
-    conn.on('open', function () {
-      ctrl_emitter.on('controller', function () {
-        emitter.emit('ready');
-        ctrl_emitter.on('event', function (e) {
-          console.log(e.name + ':' + e.type);
-
-          if (e.type === 'acceleration') {
-            console.log(e.data);
+          if (prev.length) {
+            prev.addClass('active');
+          } else {
+            $(selector).last().addClass('active');
           }
-        });
-      });
+
+          break;
+
+        case 'select:down':
+
+          if (window.started) {
+            break;
+          }
+
+          conn.ready = true;
+          conn.color = $(selector + '.active').data('color');
+          
+          if (controllers[0].ready && controllers[1].ready) {
+            window.started = true;
+            var color = $(selector + '.active').data('color');
+
+            $('#select-view').hide();
+            $('#game-view').show();
+
+            initGame(emitter, color);
+
+            break;
+          }
+      }
     });
   });
-
-  conn.on('open', function() {
-    emitter.emit('peerConnected');
-    $('#controller_qr').show();
-  });
-
-}
+});
 
 function QR(selector, text) {
   new QRCode(selector, {
