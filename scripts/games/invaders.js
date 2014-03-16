@@ -180,6 +180,8 @@ Invaders.prototype.throwBullet = function () {
   if (self.bullet) return;
 
   var geometry = new THREE.BoxGeometry(self.size / 4, self.size / 2, 5);
+  var material = new THREE.MeshBasicMaterial({ color: 0xFECD5A });
+
   self.bullet = new THREE.Mesh(geometry, self.material);
   self.bullet.position.y = -200;
   self.bullet.position.x = self.defenser.position.x;
