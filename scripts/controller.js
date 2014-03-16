@@ -67,7 +67,7 @@ $(function () {
   });
 
   //start and select down
-  $('.menu-pane .button').on('touchstart mousedown',function (e){
+  $('.menu-pane .buttons .button').on('touchstart mousedown',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'down'
@@ -77,7 +77,7 @@ $(function () {
   });
 
   //start and select up
-  $('.menu-pane .button').on('touchend mouseup touchcancel',function (e){
+  $('.menu-pane .buttons .button').on('touchend mouseup touchcancel',function (e){
     var data = {
       name: $(this).attr('id'),
       type: 'up'
