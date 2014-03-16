@@ -20,6 +20,7 @@ function Invaders (scene, width, rows, bricks_in_row) {
   this.group = new THREE.Object3D();
 
   this.defenser;
+  this.bullet;
 
 }
 
@@ -30,17 +31,6 @@ Invaders.prototype.init = function () {
   self.initInvaders();
   self.initDefenser();
   self.initBullet();
-
-  setInterval(function () {
-
-    console.log('count of all: ' + self.all.length);
-
-    for (var i = 0; i < self.group.children.length; i++) {
-      var row = self.group.children[i];
-      console.log('count of row #' + i + ': ' + row.children.length);
-    }
-
-  }, 1000);
 
 };
 
@@ -116,12 +106,12 @@ Invaders.prototype.initDefenser = function () {
 Invaders.prototype.initBullet = function () {
 
   var self = this;
-  self.bullet;
 
   $('body').keydown(function (e) {
     if (e.keyCode !== 32) return;
 
-    self.throwBullet();
+    if (! self.bullet)
+      self.throwBullet();
   });
 
 };
@@ -155,7 +145,9 @@ Invaders.prototype.animate = function () {
 
   this.animateInvaders();
   this.animateDefenser();
-  this.animateBulletAndCollide();
+
+  this.animateBullet();
+  this.collideBullet();
 
   this.testLoose();
 
@@ -216,10 +208,9 @@ Invaders.prototype.destroyBullet = function (mesh) {
   self.scene.remove(mesh);
   self.bullet = null;
 
-
 };
 
-Invaders.prototype.animateBulletAndCollide = function () {
+Invaders.prototype.animateBullet = function () {
 
   var self = this;
 
@@ -232,7 +223,17 @@ Invaders.prototype.animateBulletAndCollide = function () {
     return;
   }
 
-  // master of all, collisiomaster
+};
+
+Invaders.prototype.collideBullet = function () {
+
+  var self = this;
+
+  if (! self.bullet) return;
+
+  console.log(self.bullet);
+
+  // master of all, collisionmaster
 
   var originPoint = self.bullet.position.clone();
 
@@ -245,7 +246,12 @@ Invaders.prototype.animateBulletAndCollide = function () {
     var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
     var collisionResults = ray.intersectObjects(self.all);
 
+    console.log(collisionResults);
+
     if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+
+      console.log('hit');
+
       var mesh = collisionResults[0].object;
 
       // remove invader
@@ -264,8 +270,6 @@ Invaders.prototype.animateBulletAndCollide = function () {
 Invaders.prototype.testLoose = function () {
 
   var self = this;
-
-
 
   for (var i = 0; i < self.group.children.length; i++) {
     var row = self.group.children[i];

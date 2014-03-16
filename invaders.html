@@ -71,8 +71,8 @@
     function animate() {
       stats.begin();
 
-      invaders.animate();
       renderer.render(scene, camera);
+      invaders.animate();
 
       requestAnimationFrame(animate);
       stats.end();
