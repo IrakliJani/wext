@@ -23,7 +23,7 @@ $(function () {
 $(function () {
   draw_things();
   
-  //events go wild
+  // events go wild
   $(document).click(function () {
     //launchFullscreen(document.documentElement);  
   });
@@ -37,6 +37,7 @@ $(function () {
       type: 'down'
     };
     sendEvent(data);
+    $(this).addClass('action-pane-active');
   });
 
   //a and b up
@@ -46,6 +47,7 @@ $(function () {
       type: 'up'
     };
     sendEvent(data);
+    $(this).removeClass('action-pane-active');
   });
 
   //start and select down
@@ -55,6 +57,7 @@ $(function () {
       type: 'down'
     };
     sendEvent(data);
+    $(this).addClass('menu-pane-active');
   });
 
   //start and select up
@@ -64,6 +67,7 @@ $(function () {
       type: 'up'
     };
     sendEvent(data);
+    $(this).removeClass('menu-pane-active');
   });
 
   //arrows down

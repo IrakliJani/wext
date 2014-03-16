@@ -327,7 +327,7 @@ body { font: 15px/2 nescontroller,sans-serif; }
         1.2em .6em .5em rgba(0, 0, 0, .3);
     }
 
-.action-pane .button:active {
+.action-pane-active {
   top: .70rem !important;
   left: .35rem !important;
   box-shadow:
@@ -337,7 +337,7 @@ body { font: 15px/2 nescontroller,sans-serif; }
     .1em .075em .5em rgba(0,0,0,.3) !important;
 }
 
-.menu-pane .button:active {
+.menu-pane-active {
   top: 0 !important;
   left: 0 !important;
   box-shadow:
