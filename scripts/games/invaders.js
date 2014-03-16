@@ -1,4 +1,4 @@
-function Invaders (scene, width, rows, bricks_in_row) {
+function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
 
   this.width = width; // canvas width;
   this.scene = scene;
@@ -21,6 +21,8 @@ function Invaders (scene, width, rows, bricks_in_row) {
 
   this.defenser;
   this.bullet;
+
+  this.emitter = emitter;
 
 }
 
@@ -101,6 +103,23 @@ Invaders.prototype.initDefenser = function () {
       }
     });
 
+  self.emitter.on('event', function (data) {
+    var name = data.name + ':' + data.type;
+
+    switch (name) {
+      case 'left:down':
+        self.defenser.direction = 'left';
+        break;
+      case 'right:down':
+        self.defenser.direction = 'right';
+        break;
+      case 'left:up':
+      case 'right:up':
+        self.defenser.direction = '';
+    }
+
+  });
+
 };
 
 Invaders.prototype.initBullet = function () {
@@ -112,6 +131,18 @@ Invaders.prototype.initBullet = function () {
 
     if (! self.bullet)
       self.throwBullet();
+  });
+
+  self.emitter.on('event', function (data) {
+    var name = data.name + ':' + data.type;
+
+    switch (name) {
+      case 'a:down':
+      case 'b:down':
+        if (! self.bullet)
+          self.throwBullet();
+    }
+
   });
 
 };

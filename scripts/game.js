@@ -2,15 +2,14 @@ if (isMobile()) {
   redirect('/');
 }
 
-var peer = new Peer('master', { key: 'z0bavx5ok1emi', debug: 2 });
+// var peer = new Peer('master', { key: 'z0bavx5ok1emi', debug: 2 });
+var peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
 
 $('#game-url').hide();
 $('#controller-qr').hide();
 
-
 //$('#send-view').hide();
 //$('#select-view').hide();
-
 
 $('#game-view').hide();
 
@@ -31,6 +30,9 @@ if (window.location.hash === "") {
 
   peer.on('connection', function (conn) {
     var emitter = new Emitter(conn);
+
+    // black code don't do that, please I'll do that, ok but not in the next time pal, you will be a man someday so that's not right to do
+    // window.emitter = emitter;
 
     conn.on('open', function () {
       var type;
@@ -81,26 +83,21 @@ if (window.location.hash === "") {
 
             case 'select:down':
 
-
               if (window.started) break;
 
               window.started = true;
-              window.color = $('#select-view ul li.active').data('color');
-
+              var color = $('#select-view ul li.active').data('color');
 
               $('#select-view').hide();
               $('#game-view').show();
 
-              initGame();
+              initGame(emitter, color);
 
               break;
 
           }
 
-
-
         });
-
 
       });
 
@@ -155,7 +152,7 @@ function QR(selector, text) {
   });
 }
 
-function initGame() {
+function initGame(emitter, color) {
   var stats = new Stats();
   stats.setMode(0);
 
@@ -176,6 +173,8 @@ function initGame() {
 
   function init() {
 
+    console.log(emitter);
+
     var width = $('#canvas').width(),
         height = $('#canvas').height();
 
@@ -191,7 +190,7 @@ function initGame() {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.position.z = 600;
 
-    invaders = new Invaders(scene, width, 3, 10);
+    invaders = new Invaders(emitter, scene, color, width, 3, 10);
     invaders.init();
     invaders.draw();
 
