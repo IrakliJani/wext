@@ -72,3 +72,36 @@
         color: #fff;
       }
 
+
+.doge.win img {
+  width: 25em;
+  border-radius: 50%;
+  border: 2px solid rgb(163, 163, 163);
+  margin-left: 35%;
+
+}
+
+.doge {
+  display: none;
+}
+
+.doge.win h1 {
+  color: red;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: bold;
+}
+
+.doge.loose img {
+  width: 25em;
+  border-radius: 50%;
+  border: 2px solid rgb(163, 163, 163);
+  margin-left: 35%;
+}
+
+.doge.loose h1 {
+  color: green;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: bold;
+}
