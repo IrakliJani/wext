@@ -15,3 +15,31 @@
   font-size: 1.5em;
   margin-bottom: 20px;
 }
+
+
+  #select-view ul {
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+  }
+
+    #select-view ul li {
+      margin: 0;
+      padding: 0;
+    }
+
+      #select-view ul li.red {
+        color: red;
+      }
+
+      #select-view ul li.green {
+        color: green;
+      }
+
+      #select-view ul li.blue {
+        color: blue;
+      }
+
+      #select-view ul li.active {
+        background-color: #000;
+      }

@@ -35,6 +35,7 @@ $(function () {
     }
   });
 
+  // davitas teritoria
 
   draw_things();
   
