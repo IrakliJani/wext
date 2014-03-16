@@ -1,9 +1,31 @@
+//setup connection
+$(function () {
+  if (window.location.hash.length < 1 || !isMobile()) {
+    redirect('/');
+  }
+
+  var id = window.location.hash.slice(1);
+  window.peer = new Peer({ key: 'z0bavx5ok1emi', debug: 2 });
+
+  window.conn = peer.connect(id);
+  var emitter = new Emitter(conn);
+
+  conn.on('open', function() {
+    emitter.emit('controller');
+    emitter.emit('event', { name : 'tmp', args : 'tttl' });
+  });
+
+  window.sendEvent = function (data) {
+    emitter.emit('event', data);
+  };
+});
+
 $(function () {
   draw_things();
   
   //events go wild
   $(document).click(function () {
-    launchFullscreen(document.documentElement);  
+    //launchFullscreen(document.documentElement);  
   });
 
   FastClick.attach(document.body);
@@ -14,6 +36,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'down'
     };
+    sendEvent(data);
   });
 
   //a and b up
@@ -22,6 +45,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'up'
     };
+    sendEvent(data);
   });
 
   //start and select down
@@ -30,6 +54,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'down'
     };
+    sendEvent(data);
   });
 
   //start and select up
@@ -38,6 +63,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'up'
     };
+    sendEvent(data);
   });
 
   //arrows down
@@ -46,6 +72,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'down'
     };
+    sendEvent(data);
     e.preventDefault(); 
     $("#dpad").addClass(data.name);
   });
@@ -56,6 +83,7 @@ $(function () {
       name: $(this).attr('id'),
       type: 'up'
     };
+    sendEvent(data);
     e.preventDefault(); 
     $("#dpad").removeClass(data.name);
   });

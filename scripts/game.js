@@ -28,8 +28,15 @@ if (window.location.hash === "") {
     var emitter = new Emitter(conn);
 
     conn.on('open', function () {
+      var type;
       emitter.on('ready', function () {
         $('#game_url').hide();
+      });
+
+      emitter.on('controller', function () {
+        emitter.on('event', function (e) {
+          console.log(e.name + ':' + e.type);
+        });
       });
     });
   });
