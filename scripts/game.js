@@ -37,6 +37,7 @@ peer.on('connection', function (conn) {
     var i = controllers.length;
     controllers[i] = conn;
     conn.controller = i;
+    conn.ready = false;
 
     $('#connections div:nth-child(' + (1 + i) + ')').removeClass('disconnected').addClass('connected').html('Connected');
 
@@ -81,17 +82,24 @@ peer.on('connection', function (conn) {
 
         case 'select:down':
 
-          if (window.started) break;
+          if (window.started) {
+            break;
+          }
 
-          window.started = true;
-          var color = $(selector + '.active').data('color');
+          conn.ready = true;
+          conn.color = $(selector + '.active').data('color');
+          
+          if (controllers[0].ready && controllers[1].ready) {
+            window.started = true;
+            var color = $(selector + '.active').data('color');
 
-          $('#select-view').hide();
-          $('#game-view').show();
+            $('#select-view').hide();
+            $('#game-view').show();
 
-          initGame(emitter, color);
+            initGame(emitter, color);
 
-          break;
+            break;
+          }
       }
     });
   });
