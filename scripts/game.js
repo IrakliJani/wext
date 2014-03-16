@@ -11,8 +11,6 @@ if (window.location.hash === "") {
 
   // Master of all
 
-  var worker = new Worker('scripts/worker.js');
-
   peer.on('open', function (id) {
 
     var url = window.location.href;
