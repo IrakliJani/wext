@@ -13,6 +13,7 @@ function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
 
   // materials and geometry
   this.material = new THREE.MeshNormalMaterial();
+
   this.geometry = new THREE.BoxGeometry(this.size, this.size, 10);
 
   // let's group some invaders
@@ -23,6 +24,18 @@ function Invaders (emitter, scene, color, width, rows, bricks_in_row) {
   this.bullet;
 
   this.emitter = emitter;
+
+  switch (color) {
+    case 'red':
+      this.color = 0xFF0000;
+      break;
+    case 'green':
+      this.color = 0x00FF00;
+      break;
+    case 'blue':
+      this.color = 0x0000FF;
+      break;
+  }
 
 }
 
@@ -80,7 +93,9 @@ Invaders.prototype.initDefenser = function () {
   var self = this;
 
   var geometry = new THREE.BoxGeometry(self.size * 2, self.size / 2, 5);
-  self.defenser = new THREE.Mesh(geometry, self.material);
+  var material = new THREE.MeshBasicMaterial({ color: self.color });
+
+  self.defenser = new THREE.Mesh(geometry, material);
   self.defenser.position.y = -220;
 
   // ugly?
