@@ -1,4 +1,9 @@
-###nginx configuration
+# WEXT
+
+Serverless THREE.JS game using WEBRTC made for local hackathon in just 2 days
+
+
+###nginx configuration for static html file serving
 
 ```nginx
 server {
